@@ -27,11 +27,11 @@
 (fx/defn handle-message [cofx message]
   (models.message/receive-one cofx message))
 
-(fx/defn process-response [cofx response-js]
-  (let [chats (.-chats response-js)
-        contacts (.-contacts response-js)
-        installations (.-installations response-js)
-        messages (.-messages response-js)]
+(fx/defn process-response [cofx ^js response-js]
+  (let [^js chats (.-chats response-js)
+        ^js contacts (.-contacts response-js)
+        ^js installations (.-installations response-js)
+        ^js messages (.-messages response-js)]
     (cond
       (seq installations)
       (let [installations-clj (types/js->clj installations)]

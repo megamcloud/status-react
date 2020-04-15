@@ -152,7 +152,8 @@
      [react/view {:style {:align-self :flex-start :padding-left 16 :margin-bottom 24}}
       [react/text {:style {:font-size (if small-screen? 15 17) :font-weight "700"}}
        (i18n/label :t/confirmation-request)]]
-     (when (and (:formatted-amount message) (:formatted-currency message))
+     (cond
+       (and (:formatted-amount message) (:formatted-currency message))
        [react/view {:style {:margin-bottom 24 :align-self :stretch}}
         [react/nested-text {:style {:font-weight "500" :font-size (if small-screen? 34 44)
                                     :text-align :center}}
@@ -161,7 +162,22 @@
         [react/text {:style {:font-size 19 :text-align :center
                              :margin-bottom 16}}
          (str fiat-amount " " fiat-currency)]
-        [separator]])
+        [separator]]
+       (and (:receiver message) (:code message))
+       [react/view {:style {:margin-bottom 24
+                            :align-self :stretch}}
+        [react/view {:style {:padding-horizontal 24}}
+         [react/text {:style {:font-size 24
+                              :text-align :center}}
+          (i18n/label :t/keycard-redeem-tx)]
+         [react/text {:style {:font-size 24
+                              :color colors/gray
+                              :text-align :center}
+                      :number-of-lines 1
+                      :ellipsize-mode :middle}
+          (:receiver message)]]
+        [separator]]
+       :else nil)
      [react/view {:style (styles/sheet-icon (case keycard-step
                                               (:connect :signing) colors/blue-transparent-10
                                               :error              colors/red-transparent-10

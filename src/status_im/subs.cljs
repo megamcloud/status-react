@@ -450,8 +450,6 @@
  (fn [chain-keyword]
    (tokens/native-currency chain-keyword)))
 
-(reg-root-key-sub :ethereum/current-block :ethereum/current-block)
-
 ;;MULTIACCOUNT ==============================================================================================================
 
 (re-frame/reg-sub

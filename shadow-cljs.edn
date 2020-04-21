@@ -56,4 +56,18 @@
            :output-to     "target/test/test.js"
            :output-dir    "target/test"
            :optimizations :simple
-           :target        :node-test}}}
+           :target        :node-test
+           :compiler-options {:output-feature-set :es6
+                              :source-map false
+                              :static-fns false
+                              :optimizations :simple}
+           #_#_:js-options {:js-provider :closure}}
+
+          :mocks
+          {:target :node-library
+           :exports {:mocks mocks.js-dependencies/mock}
+           :output-to "target/mocks/mocks.js"
+           :output-dir "target/mocks"
+           :compiler-options {:optimizations :simple
+                              :source-map false}
+           :js-options {:js-provider :require}}}}

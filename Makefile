@@ -187,10 +187,10 @@ jsbundle-android: export BUILD_ENV ?= prod
 jsbundle-android: ##@jsbundle Compile JavaScript and Clojure into index.android.js
 	# Call nix-build to build the 'targets.mobile.android.jsbundle' attribute and copy the index.android.js file to the project root
 	yarn shadow-cljs release android
-  # All resources loaded by slurp are moved to status-modules/resources dir
-  # in release builds and are loaded only by demand instead of being bundled into
-  # index.js
-  node prepare-modules.js
+	# All resources loaded by slurp are moved to status-modules/resources dir
+	# in release builds and are loaded only by demand instead of being bundled into
+	# index.js
+	node prepare-modules.js
 	# nix/scripts/build.sh targets.mobile.android.jsbundle && \
 	# mv result/index.$(TARGET).js ./
 
@@ -201,10 +201,10 @@ jsbundle-ios: export TARGET ?= ios
 jsbundle-ios: export BUILD_ENV ?= prod
 jsbundle-ios: ##@jsbundle Compile JavaScript and Clojure into index.ios.js
 	yarn shadow-cljs release ios
-  # All resources loaded by slurp are moved to status-modules/resources dir
-  # in release builds and are loaded only by demand instead of being bundled into
-  # index.js
-  node prepare-modules.js
+	# All resources loaded by slurp are moved to status-modules/resources dir
+	# in release builds and are loaded only by demand instead of being bundled into
+	# index.js
+	node prepare-modules.js
 
 #--------------
 # Clojure REPL

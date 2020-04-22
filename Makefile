@@ -283,11 +283,7 @@ lint-fix: ##@test Run code style checks and fix issues
 
 test: export TARGET := lein
 test: ##@test Run tests once in NodeJS
-	lein with-profile test doo node test once
-
-test-auto: export TARGET := lein
-test-auto: ##@test Run tests in interactive (auto) mode in NodeJS
-	lein with-profile test doo node test
+	yarn shadow-cljs compile mocks && yarn shadow-cljs compile test && node --require ./test-resources/override.js target/test/test.js
 
 coverage: ##@test Run tests once in NodeJS generating coverage
 	@scripts/run-coverage.sh

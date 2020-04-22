@@ -69,7 +69,7 @@ pipeline {
           }
           stage('Tests') {
             steps {
-              script { nix.shell('lein test-cljs', attr: 'shells.lein') }
+              script { nix.shell('make test', attr: 'shells.lein') }
             }
           }
         } }

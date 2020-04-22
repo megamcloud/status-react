@@ -127,14 +127,6 @@ watchman-clean: export TARGET := watchman
 watchman-clean: ##@prepare Delete repo directory from watchman
 	watchman watch-del $${STATUS_REACT_HOME}
 
-disable-githooks: SHELL := /bin/sh
-disable-githooks: ##@prepare Disables lein githooks
-	@rm -f ${env.WORKSPACE}/.git/hooks/pre-commit && \
-	sed -i'~' -e 's|\[rasom/lein-githooks|;; [rasom/lein-githooks|' \
-		-e 's|:githooks|;; :githooks|' \
-		-e 's|:pre-commit|;; :pre-commit|' project.clj; \
-	rm project.clj~
-
 pod-install: export TARGET := ios
 pod-install: ##@prepare Run 'pod install' to install podfiles and update Podfile.lock
 	cd ios && pod install; cd --
@@ -207,15 +199,6 @@ jsbundle-ios: export BUILD_ENV ?= prod
 jsbundle-ios: ##@jsbundle Compile JavaScript and Clojure into index.ios.js
 	@git clean -dxf -f ./index.$(TARGET).js && \
 	yarn shadow-cljs release ios
-
-prod-build-desktop: jsbundle-desktop ##@legacy temporary legacy alias for jsbundle-desktop
-	@echo "${YELLOW}This a deprecated target name, use jsbundle-desktop.$(RESET)"
-
-jsbundle-desktop: export TARGET ?= $(HOST_OS)
-jsbundle-desktop: export BUILD_ENV ?= prod
-jsbundle-desktop: ##@jsbundle Compile JavaScript and Clojure into index.desktop.js
-	git clean -qdxf -f ./index.desktop.js desktop/ && \
-	lein jsbundle-desktop
 
 #--------------
 # Clojure REPL

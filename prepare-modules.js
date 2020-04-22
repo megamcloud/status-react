@@ -1,3 +1,6 @@
+// All resources loaded by slurp are moved to status-modules/resources dir
+// in release builds and are loaded only by demand instead of being bundled into
+// index.js
 var fs = require("fs");
 var path = require('path');
 var dirs = ["status-modules/cljs", "status-modules/resources"];

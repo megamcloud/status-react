@@ -67,18 +67,6 @@
     "nyc": "^14.1.1",
     "process": "0.11.10",
     "rn-snoopy": "git+https://github.com/status-im/rn-snoopy.git#v2.0.2-status",
-    "shadow-cljs": "2.8.83"
-  },
-    "jest": {
-        "preset": "react-native",
-        "setupFiles": [
-            "./target/test/status_im.test.preload.js"
-        ],
-        "testMatch": [
-            "**/*.js"
-        ],
-        "transformIgnorePatterns": [
-            "node_modules/(?!(jest-)?react-native|react-navigation|react-navigation-redux-helpers|@react-navigation/.*)"
-        ]
-    }
+    "shadow-cljs": "2.8.99"
+  }
 }

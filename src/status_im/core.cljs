@@ -16,7 +16,7 @@
   (aset js/console "disableYellowBox" true))
 
 (defn init [app-root]
-  (utils.logs/init-logs)
-  (error-handler/register-exception-handler!)
-  (re-frame/dispatch-sync [:init/app-started])
+  #_(utils.logs/init-logs)
+  #_(error-handler/register-exception-handler!)
+  #_(re-frame/dispatch-sync [:init/app-started])
   (.registerComponent react/app-registry "StatusIm" #(reagent/reactify-component app-root)))

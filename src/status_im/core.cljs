@@ -21,9 +21,17 @@
 
 (def view (r/adapt-react-class (.-View ^js rn)))
 
-(def ^:private text-class (r/adapt-react-class (.-Text ^js rn)))
+(def ^:private text-class (reagent/adapt-react-class (.-Text ^js rn)))
 
 (def splash-screen (-> ^js rn .-NativeModules .-SplashScreen))
+
+(defn- default-text-style-props [styles]
+  (merge {:font-family "inherit"}
+         styles))
+
+(defn- prepare-text-props [props]
+  (-> props
+      (update :style default-text-style-props)))
 
 (defn text
   ([text-element]

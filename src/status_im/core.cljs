@@ -5,10 +5,10 @@
             [status-im.ui.screens.views :as views]
             [status-im.ui.components.react :as react]
             [reagent.core :as reagent]
-            status-im.utils.db
-            status-im.ui.screens.db
-            status-im.ui.screens.events
-            #_status-im.subs
+            #_status-im.utils.db
+            #_status-im.ui.screens.db
+            #_status-im.ui.screens.events
+            status-im.subs
             ["react-native-screens" :refer (enableScreens)]
             [status-im.utils.logging.core :as utils.logs]
             #_cljs.core.specs.alpha
@@ -62,5 +62,5 @@
 
   (enableScreens)
   (.registerComponent app-registry "StatusIm" #(reagent/reactify-component app-root))
-  (re-frame/dispatch-sync [:init/app-started])
+  #_(re-frame/dispatch-sync [:init/app-started])
   (.hide ^js splash-screen))

@@ -34,53 +34,53 @@
 (def picker-class (reagent/adapt-react-class (.-Picker react-native)))
 (def picker-item-class (reagent/adapt-react-class (.-Item (.-Picker react-native))))
 
-;; (defn valid-source? [source]
-;;   (or (not (map? source))
-;;       (not (contains? source :uri))
-;;       (and (contains? source :uri)
-;;            (:uri source))))
+(defn valid-source? [source]
+  (or (not (map? source))
+      (not (contains? source :uri))
+      (and (contains? source :uri)
+           (:uri source))))
 
-;; (defn image [{:keys [source] :as props}]
-;;   (when (valid-source? source)
-;;     [image-class props]))
+(defn image [{:keys [source] :as props}]
+  (when (valid-source? source)
+    [image-class props]))
 
-;; (def switch-class (reagent/adapt-react-class (.-Switch react-native)))
+(def switch-class (reagent/adapt-react-class (.-Switch react-native)))
 
-;; (defn switch [props]
-;;   [switch-class props])
+(defn switch [props]
+  [switch-class props])
 
-;; (def touchable-highlight-class (reagent/adapt-react-class (.-TouchableHighlight react-native)))
-;; (def touchable-without-feedback-class (reagent/adapt-react-class (.-TouchableWithoutFeedback react-native)))
-;; (def touchable-opacity-class (reagent/adapt-react-class (.-TouchableOpacity react-native)))
-;; (def activity-indicator-class (reagent/adapt-react-class (.-ActivityIndicator react-native)))
+(def touchable-highlight-class (reagent/adapt-react-class (.-TouchableHighlight react-native)))
+(def touchable-without-feedback-class (reagent/adapt-react-class (.-TouchableWithoutFeedback react-native)))
+(def touchable-opacity-class (reagent/adapt-react-class (.-TouchableOpacity react-native)))
+(def activity-indicator-class (reagent/adapt-react-class (.-ActivityIndicator react-native)))
 
-;; (defn activity-indicator [props]
-;;   [activity-indicator-class props])
+(defn activity-indicator [props]
+  [activity-indicator-class props])
 
-;; (defn small-loading-indicator [color]
-;;   [activity-indicator {:color   (if color color :colors/gray)
-;;                        :ios     {:size :small}
-;;                        :android {:size :16}}])
+(defn small-loading-indicator [color]
+  [activity-indicator {:color   (if color color :colors/gray)
+                       :ios     {:size :small}
+                       :android {:size :16}}])
 
-;; (def modal (reagent/adapt-react-class (.-Modal react-native)))
+(def modal (reagent/adapt-react-class (.-Modal react-native)))
 
-;; (def pan-responder (.-PanResponder react-native))
-;; (def animated (.-Animated react-native))
+(def pan-responder (.-PanResponder react-native))
+(def animated (.-Animated react-native))
 
-;; (def animated-view-class
-;;   (reagent/adapt-react-class (.-View animated)))
+(def animated-view-class
+  (reagent/adapt-react-class (.-View animated)))
 
-;; (def animated-flat-list-class
-;;   (reagent/adapt-react-class (.-FlatList animated)))
+(def animated-flat-list-class
+  (reagent/adapt-react-class (.-FlatList animated)))
 
-;; (defn animated-view [props & content]
-;;   (vec (conj content props animated-view-class)))
+(defn animated-view [props & content]
+  (vec (conj content props animated-view-class)))
 
-;; (def dimensions (.-Dimensions react-native))
-;; (def keyboard (.-Keyboard react-native))
-;; (def dismiss-keyboard! #(.dismiss Keyboard))
-;; (def linking (.-Linking react-native))
-;; (def desktop-notification (.-DesktopNotification (.-NativeModules react-native)))
+(def dimensions (.-Dimensions react-native))
+(def keyboard (.-Keyboard react-native))
+(def dismiss-keyboard! #(.dismiss Keyboard))
+(def linking (.-Linking react-native))
+(def desktop-notification (.-DesktopNotification (.-NativeModules react-native)))
 
 (def max-font-size-multiplier 1.25)
 

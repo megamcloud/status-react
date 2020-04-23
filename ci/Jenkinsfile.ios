@@ -68,7 +68,16 @@ pipeline {
           }
           stage('Tests') {
             steps {
-              script { nix.shell('make test', attr: 'shells.lein') }
+              script {
+                /* We want the build result to be uploaded */
+                catchError(
+                  message: 'Linting check failed!',
+                  buildResult: 'SUCCESS',
+                  stageResult: 'SUCCESS'
+                ) {
+                  nix.shell('make test', attr: 'shells.lein')
+                }
+              }
             }
           }
         } }

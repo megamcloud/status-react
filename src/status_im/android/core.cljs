@@ -20,7 +20,7 @@
   (dispatch [:app-state-change state]))
 
 (defn on-languages-change [event]
-  (i18n/set-language (.-language event)))
+  (i18n/set-language (.-language ^js event)))
 
 (defn on-shake []
   (dispatch [:shake-event]))

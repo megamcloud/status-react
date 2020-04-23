@@ -101,7 +101,7 @@
                (= (:error res) ""))
         {:result true}
         res))
-    (catch :default e
+    (catch :default ^js e
       {:error (.-message e)})))
 
 (defn response-handler [success-fn error-fn]

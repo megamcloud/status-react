@@ -10,7 +10,7 @@
   (fn [^js message]
     (let [method    (.-method message)
           module    (.-module message)
-          args      (.-args message)
+          ^js args      (.-args message)
           first-arg (when (pos? (.-length args))
                       (aget args 0))]
       (f {:method    method
@@ -54,7 +54,7 @@
 (defn threshold-warnings
   [{:keys [filter-fn label tick? print-events? threshold events threshold-message]}]
   (.subscribe ((bars
-                (fn [a] (.-length a))
+                (fn [^js a] (.-length a))
                 threshold
                 tick?
                 true

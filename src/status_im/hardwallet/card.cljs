@@ -72,7 +72,7 @@
     :on-nfc-disabled
     #(re-frame/dispatch [:hardwallet.callback/check-nfc-enabled-success false])}))
 
-(defn- error-object->map [object]
+(defn- error-object->map [^js object]
   {:code  (.-code object)
    :error (.-message object)})
 

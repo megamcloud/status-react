@@ -25,7 +25,7 @@
   (loop [input   content
          matches []
          offset  0]
-    (if-let [match (.exec regex input)]
+    (if-let [^js match (.exec regex input)]
       (let [match-value    (first match)
             match-size     (count match-value)
             relative-index (.-index match)

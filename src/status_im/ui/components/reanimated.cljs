@@ -31,8 +31,8 @@
 (def set (oget animated "set"))
 (def start-clock (oget animated "startClock"))
 (def stop-clock (oget animated "stopClock"))
-(def bezier (.-bezier Easing))
-(def linear (.-linear Easing))
+(def bezier (.-bezier ^js Easing))
+(def linear (.-linear ^js Easing))
 
 (defn set-value [anim val]
   (ocall anim "setValue" val))

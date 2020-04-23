@@ -27,6 +27,6 @@
 (defn camera [props]
   (reagent/create-element RNCamera (clj->js (merge {:inverted true} props))))
 
-(defn get-qr-code-data [code]
+(defn get-qr-code-data [^js code]
   (when-let [data (.-data code)]
     (string/trim data)))

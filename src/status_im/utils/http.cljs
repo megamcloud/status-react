@@ -8,7 +8,7 @@
 ;; Default HTTP request timeout ms
 (def http-request-default-timeout-ms 3000)
 
-(defn- headers [response]
+(defn- headers [^js response]
   (let [entries (es6-iterator-seq (.entries (.-headers response)))]
     (reduce #(assoc %1 (string/trim (string/lower-case (first %2))) (string/trim (second %2))) {} entries)))
 
@@ -24,7 +24,7 @@
                   :headers {"Cache-Control" "no-cache"}
                   :body    body
                   :timeout (or timeout-ms http-request-default-timeout-ms)}))
-       (.then (fn [response]
+       (.then (fn [^js response]
                 (->
                  (.text response)
                  (.then (fn [body]
@@ -49,7 +49,7 @@
                          :timeout (or timeout-ms http-request-default-timeout-ms)}
                         (when headers
                           {:headers headers}))))
-       (.then (fn [response]
+       (.then (fn [^js response]
                 (->
                  (.text response)
                  (.then (fn [response-body]
@@ -112,7 +112,7 @@
         (clj->js {:method  "GET"
                   :headers (merge {"Cache-Control" "no-cache"} headers)
                   :timeout (or timeout-ms http-request-default-timeout-ms)}))
-       (.then (fn [response]
+       (.then (fn [^js response]
                 (->
                  (.text response)
                  (.then (fn [response-body]

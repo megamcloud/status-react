@@ -111,7 +111,7 @@
      (-> content :parsed-text peek :children))]])
 
 (defn render-block [{:keys [content outgoing content-type]} acc
-                    {:keys [type literal children]}]
+                    {:keys [type ^js literal children]}]
   (case type
 
     "paragraph"

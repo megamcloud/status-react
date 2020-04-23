@@ -11,7 +11,7 @@
             [status-im.ui.components.topbar :as topbar]
             [status-im.ui.components.colors :as colors]))
 
-(defn image-captured [data]
+(defn image-captured [^js data]
   (let [path       (.-uri data)
         _          (log/debug "Captured image: " path)
         on-success (fn [base64]

@@ -11,7 +11,7 @@
             [status-im.utils.fx :as fx]
             [status-im.utils.types :as types]))
 
-(defn- js-obj->seq [obj]
+(defn- js-obj->seq [^js obj]
   ;; Sometimes the filter will return a single object instead of a collection
   (if (array? obj)
     (for [i (range (.-length obj))]

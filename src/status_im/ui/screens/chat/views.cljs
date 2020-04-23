@@ -96,13 +96,13 @@
 (defn on-viewable-items-changed [^js e]
   (when @messages-list-ref
     (reset! state/first-not-visible-item
-            (when-let [^js last-visible-element (aget (.-viewableItems e) (dec (.-length (.-viewableItems e))))]
+            (when-let [^js last-visible-element (aget (.-viewableItems e) (dec (.-length ^js (.-viewableItems e))))]
               (let [index (.-index last-visible-element)
                     ;; Get first not visible element, if it's a datemark/gap
                     ;; we might unnecessarely add messages on receiving as
                     ;; they do not have a clock value, but most of the times
                     ;; it will be a message
-                    first-not-visible (aget (.-data (.-props ^js @messages-list-ref)) (inc index))]
+                    first-not-visible (aget (.-data ^js (.-props ^js @messages-list-ref)) (inc index))]
                 (when (and first-not-visible
                            (= :message (:type first-not-visible)))
                   first-not-visible)))))

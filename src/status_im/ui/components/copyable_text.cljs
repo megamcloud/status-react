@@ -8,40 +8,40 @@
 
 (defn hide-cue-atom [anim-opacity anim-y cue-atom]
   (animation/start
-   (animation/parallel
-    [(animation/timing
-      anim-opacity
-      {:toValue         0
-       :duration        140
-       :delay           1000
-       :easing          (.-ease animation/easing)
-       :useNativeDriver true})
-     (animation/timing
-      anim-y
-      {:toValue         0
-       :duration        140
-       :delay           1000
-       :easing          (.-ease animation/easing)
-       :useNativeDriver true})])
-   #(reset! cue-atom false)))
+    (animation/parallel
+      [(animation/timing
+        anim-opacity
+        {:toValue         0
+         :duration        140
+         :delay           1000
+         :easing          (.-ease ^js animation/easing)
+         :useNativeDriver true})
+       (animation/timing
+        anim-y
+        {:toValue         0
+         :duration        140
+         :delay           1000
+         :easing          (.-ease ^js animation/easing)
+         :useNativeDriver true})])
+    #(reset! cue-atom false)))
 
 (defn show-cue-atom [anim-opacity anim-y cue-atom y]
   (when @cue-atom
     (animation/start
-     (animation/parallel
-      [(animation/timing
-        anim-opacity
-        {:toValue         1
-         :duration        140
-         :easing          (.-ease animation/easing)
-         :useNativeDriver true})
-       (animation/timing
-        anim-y
-        {:toValue         y
-         :duration        140
-         :easing          (.-ease animation/easing)
-         :useNativeDriver true})])
-     #(hide-cue-atom anim-opacity anim-y cue-atom))))
+      (animation/parallel
+        [(animation/timing
+          anim-opacity
+          {:toValue         1
+           :duration        140
+           :easing          (.-ease ^js animation/easing)
+           :useNativeDriver true})
+         (animation/timing
+          anim-y
+          {:toValue         y
+           :duration        140
+           :easing          (.-ease ^js animation/easing)
+           :useNativeDriver true})])
+      #(hide-cue-atom anim-opacity anim-y cue-atom))))
 
 (defn copy-action-visual-cue [anim-opacity anim-y width cue-atom]
   [react/animated-view

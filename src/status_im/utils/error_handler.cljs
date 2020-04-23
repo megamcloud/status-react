@@ -27,7 +27,7 @@
 
 (defn format-error [e]
   (if (instance? js/Error e)
-    {:name (.-name e) :message (.-message e) :stack (.-stack e)}
+    {:name (.-name ^js e) :message (.-message ^js e) :stack (.-stack ^js e)}
     {:message (pr-str e)}))
 
 (defn handle-error [e is-fatal]
@@ -52,7 +52,7 @@
     (reset! !error-handler-set? true)
     (let [orig-handler (some-> js/ErrorUtils .-getGlobalHandler (.call))]
       (js/ErrorUtils.setGlobalHandler
-       (fn [e isFatal]
+       (fn [^js e isFatal]
          (handle-error e isFatal)
          (if js/goog.DEBUG
            (some-> orig-handler (.call nil e isFatal))

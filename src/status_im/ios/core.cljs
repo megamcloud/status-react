@@ -17,7 +17,7 @@
 (defn app-state-change-handler [state]
   (dispatch [:app-state-change state]))
 
-(defn on-languages-change [event]
+(defn on-languages-change [^js event]
   (i18n/set-language (.-language event)))
 
 (defn on-shake []

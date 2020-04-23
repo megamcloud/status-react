@@ -122,25 +122,25 @@
       (if can-save?
         (get-credentials (str key-uid "-auth")
                          #(callback (if %
-                                      (.-password %)
+                                      (.-password ^js %)
                                       auth-method-none)))
         (callback nil))))))
 
 (re-frame/reg-fx
  :keychain/get-user-password
  (fn [[key-uid callback]]
-   (get-credentials key-uid #(if % (callback (security/mask-data (.-password %))) (callback nil)))))
+   (get-credentials key-uid #(if % (callback (security/mask-data (.-password ^js %))) (callback nil)))))
 
 (re-frame/reg-fx
  :keychain/get-hardwallet-keys
  (fn [[key-uid callback]]
    (get-credentials
     key-uid
-    (fn [encryption-key-data]
+    (fn [^js encryption-key-data]
       (if encryption-key-data
         (get-credentials
          (whisper-key-name key-uid)
-         (fn [whisper-key-data]
+         (fn [^js whisper-key-data]
            (if whisper-key-data
              (callback [(.-password encryption-key-data)
                         (.-password whisper-key-data)])

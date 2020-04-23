@@ -68,19 +68,19 @@
 (def animated (.-Animated react-native))
 
 (def animated-view-class
-  (reagent/adapt-react-class (.-View animated)))
+  (reagent/adapt-react-class (.-View ^js animated)))
 
 (def animated-flat-list-class
-  (reagent/adapt-react-class (.-FlatList animated)))
+  (reagent/adapt-react-class (.-FlatList ^js animated)))
 
 (defn animated-view [props & content]
   (vec (conj content props animated-view-class)))
 
 (def dimensions (.-Dimensions react-native))
 (def keyboard (.-Keyboard react-native))
-(def dismiss-keyboard! #(.dismiss Keyboard))
+(def dismiss-keyboard! #(.dismiss ^js Keyboard))
 (def linking (.-Linking react-native))
-(def desktop-notification (.-DesktopNotification (.-NativeModules react-native)))
+(def desktop-notification (.-DesktopNotification ^js (.-NativeModules react-native)))
 
 (def max-font-size-multiplier 1.25)
 
@@ -210,10 +210,10 @@
   ([images-fn]
    (show-image-picker images-fn nil))
   ([images-fn media-type]
-   (-> image-picker
-       (.openPicker (clj->js {:multiple false :mediaType (or media-type "any")}))
-       (.then images-fn)
-       (.catch show-access-error))))
+   (->  ^js image-picker
+        (.openPicker (clj->js {:multiple false :mediaType (or media-type "any")}))
+        (.then images-fn)
+        (.catch show-access-error))))
 
 ;; Clipboard
 
@@ -221,10 +221,10 @@
   (.-Share react-native))
 
 (defn copy-to-clipboard [text]
-  (.setString (.-Clipboard react-native) text))
+  (.setString  ^js (.-Clipboard react-native) text))
 
 (defn get-from-clipboard [clbk]
-  (let [clipboard-contents (.getString (.-Clipboard react-native))]
+  (let [clipboard-contents (.getString  ^js (.-Clipboard react-native))]
     (.then clipboard-contents #(clbk %))))
 
 ;; KeyboardAvoidingView

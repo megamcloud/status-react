@@ -1,12 +1,12 @@
 (ns status-im.core
   (:require [re-frame.core :as re-frame]
             [status-im.utils.error-handler :as error-handler]
-            #_[status-im.utils.platform :as platform]
+            [status-im.utils.platform :as platform]
             [status-im.ui.screens.views :as views]
             [status-im.ui.components.react :as react]
             [reagent.core :as reagent]
             status-im.utils.db
-            #_status-im.ui.screens.db
+            status-im.ui.screens.db
             status-im.ui.screens.events
             status-im.subs
             ["react-native-screens" :refer (enableScreens)]

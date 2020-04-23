@@ -8,7 +8,7 @@
             status-im.utils.db
             status-im.ui.screens.db
             status-im.ui.screens.events
-            status-im.subs
+            #_status-im.subs
             ["react-native-screens" :refer (enableScreens)]
             [status-im.utils.logging.core :as utils.logs]
             #_cljs.core.specs.alpha

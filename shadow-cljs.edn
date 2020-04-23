@@ -45,7 +45,7 @@
                                         :js-options {:js-provider :closure}}}}
           :ios
           {:target :react-native
-           :init-fn status-im.ios.core/init
+           :init-fn status-im.core/init
            :output-dir "app"
            :dev {:devtools {:autoload true}
                  ;; if you want to use a real device, set your local ip

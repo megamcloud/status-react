@@ -127,8 +127,7 @@
 (def text-input-refs (atom {}))
 
 (defn text-input
-  [options t #_text]
-  [text "hello"]
+  [options text]
   (let [render-fn (fn [options text]
                     [text-input-class
                      (merge

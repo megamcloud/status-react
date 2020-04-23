@@ -46,8 +46,8 @@
    [text "hello"]])
 
 (defn init []
-  #_(utils.logs/init-logs)
-  #_(error-handler/register-exception-handler!)
+  (utils.logs/init-logs)
+  (error-handler/register-exception-handler!)
   #_(re-frame/dispatch-sync [:init/app-started])
   (enableScreens)
   (.registerComponent app-registry "StatusIm" #(reagent/reactify-component app-root))

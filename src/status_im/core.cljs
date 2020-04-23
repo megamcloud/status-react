@@ -2,6 +2,7 @@
   (:require [re-frame.core :as re-frame]
             [status-im.utils.error-handler :as error-handler]
             #_[status-im.utils.platform :as platform]
+            [status-im.ui.screens.views :as views]
             [status-im.ui.components.react :as react]
             [reagent.core :as reagent]
             ["react-native-screens" :refer (enableScreens)]
@@ -20,8 +21,7 @@
 (def splash-screen (-> rn .-NativeModules .-SplashScreen))
 
 (defn app-root []
-  [react/view {}
-   [react/text "hello"]])
+  [views/main])
 
 (defn init []
   (utils.logs/init-logs)

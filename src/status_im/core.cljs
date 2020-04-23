@@ -34,8 +34,8 @@
    [text-class (prepare-text-props options) text-element nested-text]))
 
 (defn app-root []
-  [react/view {}
-   [react/text "hello"]])
+  [view {}
+   [text "hello"]])
 
 (defn init []
   #_(utils.logs/init-logs)

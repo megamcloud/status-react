@@ -19,7 +19,7 @@
 
 (def app-registry (.-AppRegistry ^js rn))
 
-(def view (r/adapt-react-class (.-View ^js rn)))
+(def view (reagent/adapt-react-class (.-View ^js rn)))
 
 (def ^:private text-class (reagent/adapt-react-class (.-Text ^js rn)))
 

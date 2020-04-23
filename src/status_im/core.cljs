@@ -59,7 +59,8 @@
 (defn init []
   (utils.logs/init-logs)
   (error-handler/register-exception-handler!)
-  (re-frame/dispatch-sync [:init/app-started])
+
   (enableScreens)
   (.registerComponent app-registry "StatusIm" #(reagent/reactify-component app-root))
+  (re-frame/dispatch-sync [:init/app-started])
   (.hide ^js splash-screen))

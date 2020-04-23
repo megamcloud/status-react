@@ -1,11 +1,9 @@
-{ config, stdenv, callPackage, mkShell, mergeSh,
-  fetchFromGitHub, mkFilter, openjdk, androidPkgs }:
+{ stdenv, callPackage, mkShell, mergeSh, openjdk, androidPkgs }:
 
 let
   inherit (stdenv.lib)
-    catAttrs concatStrings concatStringsSep fileContents importJSON makeBinPath
-    optional optionalString strings attrValues mapAttrs attrByPath
-    traceValFn;
+    catAttrs concatStrings concatStringsSep fileContents makeBinPath
+    optional optionalString attrValues mapAttrs attrByPath;
 
   envFlags = callPackage ../tools/envParser.nix { };
   enableNimbus = (attrByPath ["STATUS_GO_ENABLE_NIMBUS"] "0" envFlags) != "0";
@@ -21,50 +19,11 @@ let
     inherit utils;
   };
   buildStatusGoMobileLib = callPackage ./mobile {
-    inherit gomobile utils androidPkgs;
+    inherit gomobile utils;
   };
 
-  srcData =
-    # If config.status-im.status-go.src-override is defined, instruct Nix to use that path to build status-go
-    if (attrByPath ["status-im" "status-go" "src-override"] "" config) != "" then rec {
-        owner = "status-im";
-        repo = "status-go";
-        rev = "unknown";
-        shortRev = "unknown";
-        rawVersion = "develop";
-        cleanVersion = rawVersion;
-        goPackagePath = "github.com/${owner}/${repo}";
-        src =
-          let path = traceValFn (path: "Using local ${repo} sources from ${path}\n") config.status-im.status-go.src-override;
-          in builtins.path { # We use builtins.path so that we can name the resulting derivation, otherwise the name would be taken from the checkout directory, which is outside of our control
-            inherit path;
-            name = "${repo}-source-${shortRev}";
-            filter =
-              # Keep this filter as restrictive as possible in order to avoid unnecessary rebuilds and limit closure size
-              mkFilter {
-                root = path;
-                include = [ ".*" ];
-                exclude = [
-                  ".*/[.]git.*" ".*[.]md" ".*[.]yml"
-                  ".*/.*_test.go$" "_assets/.*" "build/.*"
-                  ".*/.*LICENSE.*" ".*/CONTRIB.*" ".*/AUTHOR.*"
-                ];
-              };
-          };
-    } else
-      # Otherwise grab it from the location defined by status-go-version.json
-      let
-        versionJSON = importJSON ../../status-go-version.json; # TODO: Simplify this path search with lib.locateDominatingFile
-        sha256 = versionJSON.src-sha256;
-      in rec {
-        inherit (versionJSON) owner repo version;
-        rev = versionJSON.commit-sha1;
-        shortRev = strings.substring 0 7 rev;
-        rawVersion = versionJSON.version;
-        cleanVersion = utils.sanitizeVersion versionJSON.version;
-        goPackagePath = "github.com/${owner}/${repo}";
-        src = fetchFromGitHub { inherit rev owner repo sha256; name = "${repo}-${srcData.shortRev}-source"; };
-      };
+  # source can be changed with a local override
+  source = callPackage ./source.nix { };
 
   mobileConfigs = {
     android = rec {
@@ -75,25 +34,25 @@ let
         "PATH=${makeBinPath [ openjdk ]}:$PATH"
       ];
       gomobileExtraFlags = [ "-androidapi 23" ];
-      outputFileName = "status-go-${srcData.shortRev}.aar";
+      outputFileName = "status-go-${source.shortRev}.aar";
       platforms = {
         arm64 = {
           linkNimbus = enableNimbus;
           nimbus = assert enableNimbus; nimbus.wrappers-android.arm64;
           gomobileTarget = "${name}/arm64";
-          outputFileName = "status-go-${srcData.shortRev}-arm64.aar";
+          outputFileName = "status-go-${source.shortRev}-arm64.aar";
         };
         arm = {
           linkNimbus = enableNimbus;
           nimbus = assert enableNimbus; nimbus.wrappers-android.arm;
           gomobileTarget = "${name}/arm";
-          outputFileName = "status-go-${srcData.shortRev}-arm.aar";
+          outputFileName = "status-go-${source.shortRev}-arm.aar";
         };
         x86 = {
           linkNimbus = enableNimbus;
           nimbus = assert enableNimbus; nimbus.wrappers-android.x86;
           gomobileTarget = "${name}/386";
-          outputFileName = "status-go-${srcData.shortRev}-386.aar";
+          outputFileName = "status-go-${source.shortRev}-386.aar";
         };
       };
     };
@@ -127,8 +86,8 @@ let
   goBuildFlags = concatStringsSep " " [ "-v" (optionalString enableNimbus "-tags='nimbus'") ];
   # status-go params to be set at build time, important for About section and metrics
   goBuildParams = {
-    GitCommit = srcData.rev;
-    Version = srcData.cleanVersion;
+    GitCommit = source.rev;
+    Version = source.cleanVersion;
   };
   # These are necessary for status-go to show correct version
   paramsLdFlags = attrValues (mapAttrs (name: value:
@@ -140,7 +99,7 @@ let
     "-w" # -w disables DWARF debugging information
   ];
 
-  statusGoArgs = { inherit (srcData) src owner repo rev cleanVersion goPackagePath; inherit goBuildFlags goBuildLdFlags; };
+  statusGoArgs = { inherit (source) src owner repo rev cleanVersion goPackagePath; inherit goBuildFlags goBuildLdFlags; };
   status-go-packages = {
     desktop = buildStatusGoDesktopLib (statusGoArgs // {
       outputFileName = "libstatus.a";

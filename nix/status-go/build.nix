@@ -12,26 +12,27 @@
 with stdenv;
 
 let
-  inherit (stdenv.lib) strings;
+  inherit (stdenv.lib) strings optionalString optional concatMapStrings;
 
   removeReferences = [ go ];
-  removeExpr = refs: ''remove-references-to ${lib.concatMapStrings (ref: " -t ${ref}") refs}'';
+  removeExpr = refs: ''remove-references-to ${concatMapStrings (ref: " -t ${ref}") refs}'';
 
   args = removeAttrs args' [ "buildMessage" ]; # Remove our arguments from args before passing them on to buildGoPackage
-  buildStatusGo = buildGoPackage (args // {
+in 
+  buildGoPackage (args // {
     pname = repo;
     version = "${cleanVersion}-${strings.substring 0 7 rev}-${host}";
 
     nativeBuildInputs =
       nativeBuildInputs ++
-      lib.optional isDarwin xcodeWrapper;
+      optional isDarwin xcodeWrapper;
     inherit buildInputs;
 
     # Fixes Cgo related build failures (see https://github.com/NixOS/nixpkgs/issues/25959 )
     hardeningDisable = [ "fortify" ];
 
     # Ensure XCode is present, instead of failing at the end of the build
-    preConfigure = lib.optionalString isDarwin utils.enforceXCodeAvailable;
+    preConfigure = optionalString isDarwin utils.enforceXCodeAvailable;
 
     buildPhase = ''
       runHook preBuild
@@ -71,6 +72,4 @@ let
       # add an extra maintainer to every package
       maintainers = (meta.maintainers or [ ]) ++ [ lib.maintainers.pombeirp ];
     };
-  });
-
-in buildStatusGo
+  })

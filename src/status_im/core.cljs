@@ -1,11 +1,11 @@
 (ns status-im.core
-  (:require #_[re-frame.core :as re-frame]
-            #_[status-im.utils.error-handler :as error-handler]
+  (:require [re-frame.core :as re-frame]
+            [status-im.utils.error-handler :as error-handler]
             #_[status-im.utils.platform :as platform]
             #_[status-im.ui.components.react :as react]
             [reagent.core :as reagent]
             ["react-native-screens" :refer (enableScreens)]
-            #_[status-im.utils.logging.core :as utils.logs]
+            [status-im.utils.logging.core :as utils.logs]
             #_cljs.core.specs.alpha
             ["react-native" :as rn]))
 

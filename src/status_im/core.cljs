@@ -4,6 +4,7 @@
             #_[status-im.utils.platform :as platform]
             [status-im.ui.components.react :as react]
             [reagent.core :as reagent]
+            ["react-native-screens" :refer (enableScreens)]
             #_[status-im.utils.logging.core :as utils.logs]
             #_cljs.core.specs.alpha
             ["react-native" :as react-native]))

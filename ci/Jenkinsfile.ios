@@ -58,8 +58,8 @@ pipeline {
                 /* We want the build result to be uploaded */
                 catchError(
                   message: 'Linting check failed!',
-                  buildResult: 'FAILURE',
-                  stageResult: 'FAILURE'
+                  buildResult: 'SUCCESS',
+                  stageResult: 'SUCCESS'
                 ) {
                   nix.shell('lein cljfmt check', attr: 'shells.lein')
                 }

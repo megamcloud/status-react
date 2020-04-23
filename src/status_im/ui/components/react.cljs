@@ -5,7 +5,7 @@
             [status-im.utils.utils :as utils]
             [status-im.utils.core :as utils.core]
             [status-im.utils.platform :as platform]
-            #_[status-im.i18n :as i18n]
+            [status-im.i18n :as i18n]
             ["react-native" :as react-native :refer (Keyboard)]
             ["react-native-image-crop-picker" :default image-picker]
             ["react-native-gesture-handler" :refer (TouchableWithoutFeedback)]
@@ -129,40 +129,39 @@
 (defn text-input
   [options t #_text]
   [text "hello"]
-  #_(let [render-fn (fn [options text]
-                      [text-input-class
-                       (merge
-                        {:underline-color-android  :transparent
-                         :max-font-size-multiplier max-font-size-multiplier
-                         :placeholder-text-color   colors/text-gray
-                         :placeholder              (i18n/label :t/type-a-message)
-                         :value                    text}
-                        (-> options
-                            (dissoc :preserve-input?)
-                            (update :style typography/get-style)
-                            (update :style dissoc :line-height)))])]
-      (if (:preserve-input? options)
-        render-fn
-        (let [input-ref (atom nil)]
-          (reagent/create-class
-           {:component-will-unmount #(when @input-ref
-                                       (swap! text-input-refs dissoc @input-ref))
-            :reagent-render
-            (fn [options text]
-              (render-fn (assoc options :ref
-                                (fn [r]
-                                  ;; Store input and its defaultValue
-                                  ;; one we receive a non-nil ref
-                                  (when (and r (nil? @input-ref))
-                                    (swap! text-input-refs assoc r (:default-value options)))
-                                  (reset! input-ref r)
-                                  (when (:ref options)
-                                    ((:ref options) r)))) text))})))))
+  (let [render-fn (fn [options text]
+                    [text-input-class
+                     (merge
+                      {:underline-color-android  :transparent
+                       :max-font-size-multiplier max-font-size-multiplier
+                       :placeholder-text-color   colors/text-gray
+                       :placeholder              (i18n/label :t/type-a-message)
+                       :value                    text}
+                      (-> options
+                          (dissoc :preserve-input?)
+                          (update :style typography/get-style)
+                          (update :style dissoc :line-height)))])]
+    (if (:preserve-input? options)
+      render-fn
+      (let [input-ref (atom nil)]
+        (reagent/create-class
+         {:component-will-unmount #(when @input-ref
+                                     (swap! text-input-refs dissoc @input-ref))
+          :reagent-render
+          (fn [options text]
+            (render-fn (assoc options :ref
+                              (fn [r]
+                                ;; Store input and its defaultValue
+                                ;; one we receive a non-nil ref
+                                (when (and r (nil? @input-ref))
+                                  (swap! text-input-refs assoc r (:default-value options)))
+                                (reset! input-ref r)
+                                (when (:ref options)
+                                  ((:ref options) r)))) text))})))))
 
 (defn i18n-text
   [{:keys [style key]}]
-  [text {} "hello"]
-  #_[text {:style  style} (i18n/label key)])
+  [text {:style  style} (i18n/label key)])
 
 (defn icon
   ([n] (icon n {:width  24
@@ -204,9 +203,9 @@
 
 ;; Image picker
 (defn show-access-error [o]
-  #_(when (= "E_PERMISSION_MISSING" (.-code ^js o))
-      (utils/show-popup (i18n/label :t/error)
-                        (i18n/label :t/photos-access-error))))
+  (when (= "E_PERMISSION_MISSING" (.-code ^js o))
+    (utils/show-popup (i18n/label :t/error)
+                      (i18n/label :t/photos-access-error))))
 
 (defn show-image-picker
   ([images-fn]

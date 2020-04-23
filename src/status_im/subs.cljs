@@ -126,6 +126,7 @@
 (reg-root-key-sub :group-chat-profile/editing? :group-chat-profile/editing?)
 (reg-root-key-sub :group-chat-profile/profile :group-chat-profile/profile)
 (reg-root-key-sub :selected-participants :selected-participants)
+(reg-root-key-sub :chat/inputs :chat/inputs)
 
 ;;browser
 (reg-root-key-sub :browsers :browser/browsers)
@@ -607,27 +608,6 @@
      :else 272)))
 
 (re-frame/reg-sub
- :chats/input-margin
- :<- [:keyboard-height]
- :<- [:chats/current-chat-ui-prop :input-bottom-sheet]
- (fn [[kb-height input-bottom-sheet]]
-   (cond
-     ;; During the transition of bottom sheet and close of keyboard happens
-     ;; The heights are summed up and input grows too much
-     (not (nil? input-bottom-sheet))
-     0
-
-     (and platform/iphone-x? (> kb-height 0))
-     (- kb-height tabs.styles/minimized-tabs-height 34)
-
-     platform/ios?
-     (+ kb-height (- (if (> kb-height 0)
-                       tabs.styles/minimized-tabs-height
-                       0)))
-
-     :default 0)))
-
-(re-frame/reg-sub
  :chats/active-chats
  :<- [:contacts/contacts]
  :<- [::chats]
@@ -706,9 +686,10 @@
 
 (re-frame/reg-sub
  :chats/current-chat-input-text
- :<- [:chats/current-raw-chat]
- (fn [chat]
-   (:input-text chat)))
+ :<- [:chats/current-chat-id]
+ :<- [:chat/inputs]
+ (fn [[chat-id inputs]]
+   (get-in inputs [chat-id :input-text])))
 
 (re-frame/reg-sub
  :chats/current-chat

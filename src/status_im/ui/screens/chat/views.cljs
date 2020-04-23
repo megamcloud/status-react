@@ -148,7 +148,7 @@
 (defview chat []
   (letsubs [{:keys [chat-id show-input? group-chat contact] :as current-chat}
             [:chats/current-chat]]
-    [react/view {:style {:flex 1}}
+    [react/keyboard-avoiding-view {:style {:flex 1}}
      [connectivity/connectivity
       [topbar current-chat]
       [react/view {:style {:flex 1}}

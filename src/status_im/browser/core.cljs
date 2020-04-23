@@ -24,6 +24,7 @@
             [status-im.multiaccounts.update.core :as multiaccounts.update]
             [status-im.ui.components.bottom-sheet.core :as bottom-sheet]
             [status-im.browser.webview-ref :as webview-ref]
+            [alphabase.base58 :as alphabase.base58]
             ["eth-phishing-detect" :as eth-phishing-detect]
             ["hi-base32" :as hi-base32]))
 
@@ -106,13 +107,13 @@
 (fx/defn resolve-ens-contenthash
   [{:keys [db]}]
   (let [current-url (get-current-url (get-current-browser db))
-        host (http/url-host current-url)]
-    (let [chain   (ethereum/chain-keyword db)]
-      {:db                            (update db :browser/options assoc :resolving? true)
-       :browser/resolve-ens-contenthash {:registry (get ens/ens-registries
-                                                        chain)
-                                         :ens-name host
-                                         :cb       resolve-ens-contenthash-callback}})))
+        host (http/url-host current-url)
+        chain   (ethereum/chain-keyword db)]
+    {:db                            (update db :browser/options assoc :resolving? true)
+     :browser/resolve-ens-contenthash {:registry (get ens/ens-registries
+                                                      chain)
+                                       :ens-name host
+                                       :cb       resolve-ens-contenthash-callback}}))
 
 (fx/defn update-browser
   [{:keys [db now]}
@@ -285,7 +286,7 @@
 
 (fx/defn web3-error-callback
   {:events [:browser.dapp/transaction-on-error]}
-  [cofx message-id message]
+  [_ message-id message]
   {:browser/send-to-bridge
    {:type      constants/web3-send-async-callback
     :messageId message-id
@@ -293,7 +294,7 @@
 
 (fx/defn dapp-complete-transaction
   {:events [:browser.dapp/transaction-on-result]}
-  [cofx message-id id result]
+  [_ message-id id result]
   ;;TODO check and test id
   {:browser/send-to-bridge
    {:type      constants/web3-send-async-callback

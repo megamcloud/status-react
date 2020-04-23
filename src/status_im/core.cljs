@@ -9,12 +9,15 @@
             #_cljs.core.specs.alpha
             ["react-native" :as rn]))
 
+
 (if js/goog.DEBUG
   (.ignoreWarnings (.-YellowBox ^js rn)
                    #js ["re-frame: overwriting"
                         "Warning: componentWillMount has been renamed, and is not recommended for use. See https://fb.me/react-async-component-lifecycle-hooks for details."
                         "Warning: componentWillUpdate has been renamed, and is not recommended for use. See https://fb.me/react-async-component-lifecycle-hooks for details."])
   (aset js/console "disableYellowBox" true))
+
+(def app-registry (.-AppRegistry ^js rn))
 
 (def view (r/adapt-react-class (.-View ^js rn)))
 
@@ -39,5 +42,5 @@
   #_(error-handler/register-exception-handler!)
   #_(re-frame/dispatch-sync [:init/app-started])
   (enableScreens)
-  (.registerComponent react/app-registry "StatusIm" #(reagent/reactify-component app-root))
+  (.registerComponent app-registry "StatusIm" #(reagent/reactify-component app-root))
   (.hide ^js splash-screen))

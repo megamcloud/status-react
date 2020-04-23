@@ -24,6 +24,6 @@
   #_(utils.logs/init-logs)
   #_(error-handler/register-exception-handler!)
   #_(re-frame/dispatch-sync [:init/app-started])
-  (enableScreens)
+  #_(enableScreens)
   (.registerComponent react/app-registry "StatusIm" #(reagent/reactify-component app-root))
   (.hide ^js react/splash-screen))

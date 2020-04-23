@@ -73,5 +73,5 @@
 (defn init []
   (status/set-soft-input-mode status/adjust-resize)
   (enableScreens)
-  (core/init updatable-root)
+  (core/init #_updatable-root)
   (snoopy/subscribe!))

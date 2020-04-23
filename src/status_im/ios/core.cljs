@@ -5,8 +5,8 @@
             status-im.ui.screens.db
             status-im.ui.screens.events
             status-im.subs
-            #_["react-native-languages" :default react-native-languages]
-            #_["react-native-shake" :as react-native-shake]
+            ["react-native-languages" :default react-native-languages]
+            ["react-native-shake" :as react-native-shake]
             ["react-native-screens" :refer (enableScreens)]
             [status-im.ui.screens.views :as views]
             [status-im.ui.components.react :as react]
@@ -28,28 +28,28 @@
     (reagent/create-class
      {:component-did-mount
       (fn [this]
-        (.addListener react/keyboard
+        (.addListener ^js react/keyboard
                       "keyboardWillShow"
                       (fn [^js e]
                         (let [h (.. e -endCoordinates -height)]
                           (when-not (= h @keyboard-height)
                             (dispatch [:set :keyboard-height h])
                             (dispatch [:set :keyboard-max-height h])))))
-        (.addListener react/keyboard
+        (.addListener ^js react/keyboard
                       "keyboardWillHide"
                       #(when-not (= 0 @keyboard-height)
                          (dispatch [:set :keyboard-height 0])))
-        (.hide react/splash-screen)
-        (.addEventListener react/app-state "change" app-state-change-handler)
-        #_(.addEventListener react-native-languages "change" on-languages-change)
-        #_(.addEventListener react-native-shake
+        (.hide ^js react/splash-screen)
+        (.addEventListener ^js react/app-state "change" app-state-change-handler)
+        (.addEventListener react-native-languages "change" on-languages-change)
+        (.addEventListener react-native-shake
                              "ShakeEvent"
                              on-shake)
         (dispatch [:set-initial-props (reagent/props this)]))
       :component-will-unmount
       (fn []
-        #_(.removeEventListener react/app-state "change" app-state-change-handler)
-        #_(.removeEventListener react-native-languages "change" on-languages-change))
+        (.removeEventListener ^js react/app-state "change" app-state-change-handler)
+        (.removeEventListener react-native-languages "change" on-languages-change))
       :display-name "root"
       :reagent-render views/main})))
 

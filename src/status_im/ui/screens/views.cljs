@@ -94,7 +94,7 @@
 
 (defn main []
   (let [two-pane? (reagent/atom (dimensions/fit-two-pane?))]
-    (.addEventListener react/dimensions
+    (.addEventListener ^js react/dimensions
                        "change"
                        (fn [_]
                          (let [two-pane-enabled? (dimensions/fit-two-pane?)]

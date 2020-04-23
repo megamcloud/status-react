@@ -39,7 +39,7 @@
 
 (defn add-net-info-listener []
   (when net-info
-    (.addEventListener net-info
+    (.addEventListener ^js net-info
                        #(re-frame/dispatch [::network-info-changed
                                             (js->clj % :keywordize-keys true)]))))
 

@@ -30,20 +30,20 @@
     (reagent/create-class
      {:component-did-mount
       (fn [this]
-        (.addListener react/keyboard
+        (.addListener ^js react/keyboard
                       "keyboardDidShow"
                       (fn [^js e]
                         (let [h (.. e -endCoordinates -height)]
                           (when-not (= h @keyboard-height)
                             (dispatch [:set :keyboard-height h])
                             (dispatch [:set :keyboard-max-height h])))))
-        (.addListener react/keyboard
+        (.addListener ^js react/keyboard
                       "keyboardDidHide"
                       (fn [_]
                         (when-not (zero? @keyboard-height)
                           (dispatch [:set :keyboard-height 0]))))
         (.hide react/splash-screen)
-        (.addEventListener react/app-state "change" app-state-change-handler)
+        (.addEventListener ^js react/app-state "change" app-state-change-handler)
         (.addEventListener react-native-languages "change" on-languages-change)
         (.addEventListener react-native-shake
                            "ShakeEvent"
@@ -51,7 +51,7 @@
         (dispatch [:set-initial-props (reagent/props this)]))
       :component-will-unmount
       (fn []
-        (.removeEventListener react/app-state "change" app-state-change-handler)
+        (.removeEventListener ^js react/app-state "change" app-state-change-handler)
         (.removeEventListener react-native-languages "change" on-languages-change))
       :display-name "root"
       :reagent-render views/main})))

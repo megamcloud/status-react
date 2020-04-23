@@ -21,22 +21,22 @@
 
 (defn remove-event-listeners []
   (doseq [event ["keyCardOnConnected" "keyCardOnDisconnected"]]
-    (.removeAllListeners event-emitter event)))
+    (.removeAllListeners ^js event-emitter event)))
 
-(defn remove-event-listener [event]
+(defn remove-event-listener [ ^js event]
   (.remove event))
 
 (defn on-card-connected [callback]
-  (.addListener event-emitter "keyCardOnConnected" callback))
+  (.addListener ^js event-emitter "keyCardOnConnected" callback))
 
 (defn on-card-disconnected [callback]
-  (.addListener event-emitter "keyCardOnDisconnected" callback))
+  (.addListener ^js event-emitter "keyCardOnDisconnected" callback))
 
 (defn on-nfc-enabled [callback]
-  (.addListener event-emitter "keyCardOnNFCEnabled" callback))
+  (.addListener ^js event-emitter "keyCardOnNFCEnabled" callback))
 
 (defn on-nfc-disabled [callback]
-  (.addListener event-emitter "keyCardOnNFCDisabled" callback))
+  (.addListener ^js event-emitter "keyCardOnNFCDisabled" callback))
 
 (defn register-card-events [args]
   (doseq [listener @active-listeners]

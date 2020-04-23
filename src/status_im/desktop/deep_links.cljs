@@ -5,8 +5,8 @@
             ["react-native" :refer (NativeEventEmitter)]))
 
 (defn add-event-listener []
-  (let [event-emitter (new NativeEventEmitter
-                           js-dependencies/desktop-linking)]
+  (let [^js event-emitter (new NativeEventEmitter
+                               js-dependencies/desktop-linking)]
     (.addListener event-emitter
                   "urlOpened"
                   (fn [data]

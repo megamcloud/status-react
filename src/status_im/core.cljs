@@ -17,13 +17,13 @@
                         "Warning: componentWillUpdate has been renamed, and is not recommended for use. See https://fb.me/react-async-component-lifecycle-hooks for details."])
   (aset js/console "disableYellowBox" true))
 
-(def app-registry (.-AppRegistry ^js rn))
+(def app-registry (.-AppRegistry rn))
 
-(def view (reagent/adapt-react-class (.-View ^js rn)))
+(def view (reagent/adapt-react-class (.-View rn)))
 
-(def ^:private text-class (reagent/adapt-react-class (.-Text ^js rn)))
+(def ^:private text-class (reagent/adapt-react-class (.-Text rn)))
 
-(def splash-screen (-> ^js rn .-NativeModules .-SplashScreen))
+(def splash-screen (-> rn .-NativeModules .-SplashScreen))
 
 (defn- default-text-style-props [styles]
   (merge {:font-family "inherit"}

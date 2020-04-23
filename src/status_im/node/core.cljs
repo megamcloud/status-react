@@ -71,10 +71,10 @@
   [limit nodes]
   (take limit (shuffle nodes)))
 
-(def default-fleets (slurp "resources/config/fleets.json"))
+(def default-fleets {}#_fleets-json)
 
 (defn fleets [{:keys [custom-fleets]}]
-  (as-> [(default-fleets)] $
+  (as-> [default-fleets] $
     (mapv #(:fleets (types/json->clj %)) $)
     (conj $ custom-fleets)
     (reduce merge $)))

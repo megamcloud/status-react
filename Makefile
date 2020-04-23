@@ -266,7 +266,9 @@ lint-fix: ##@test Run code style checks and fix issues
 
 test: export TARGET := lein
 test: ##@test Run tests once in NodeJS
-	yarn shadow-cljs compile mocks && yarn shadow-cljs compile test && node --require ./test-resources/override.js target/test/test.js
+	yarn shadow-cljs compile mocks && \
+  yarn shadow-cljs compile test && \
+  node --require ./test-resources/override.js target/test/test.js
 
 coverage: ##@test Run tests once in NodeJS generating coverage
 	@scripts/run-coverage.sh

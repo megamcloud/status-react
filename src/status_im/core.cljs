@@ -5,7 +5,7 @@
             [status-im.ui.screens.views :as views]
             [status-im.ui.components.react :as react]
             [reagent.core :as reagent]
-            #_status-im.utils.db
+            status-im.utils.db
             #_status-im.ui.screens.db
             #_status-im.ui.screens.events
             status-im.subs

@@ -16,9 +16,10 @@
 
 (def react-native
   #js {:NativeModules      #js {}
-       :Animated           #js {:View     #js {}
-                                :FlatList #js {}
-                                :Text     #js {}}
+       :Animated           #js {:View       #js {}
+                                :FlatList   #js {}
+                                :Text       #js {}
+                                :ScrollView #js {}}
        :Easing             #js {:bezier (fn [])}
        :DeviceEventEmitter #js {:addListener (fn [])}
        :Dimensions         #js {:get (fn [])}})

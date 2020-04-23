@@ -443,6 +443,7 @@ var TopLevel = {
   "scrollToEnd" : function () {},
   "scrollToIndex" : function () {},
   "scrollToLocation" : function () {},
+  "ScrollView" : function () {},
   "section" : function () {},
   "selection" : function () {},
   "sendDirectMessage" : function () {},

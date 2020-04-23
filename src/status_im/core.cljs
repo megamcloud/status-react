@@ -7,7 +7,7 @@
             [reagent.core :as reagent]
             status-im.utils.db
             #_status-im.ui.screens.db
-            #_status-im.ui.screens.events
+            status-im.ui.screens.events
             status-im.subs
             ["react-native-screens" :refer (enableScreens)]
             [status-im.utils.logging.core :as utils.logs]

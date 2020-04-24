@@ -13,8 +13,10 @@
                         [:tag     constants/regx-tag]
                         [:mention constants/regx-mention]])
 
+(def blank " ")
+
 (defn- blank-string [size]
-  (.repeat ^js " " size))
+  (.repeat ^js blank size))
 
 (defn- clear-ranges [ranges input]
   (reduce (fn [acc [start end]]

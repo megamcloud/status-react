@@ -2,7 +2,6 @@
 
 { owner, repo, rev, cleanVersion, goPackagePath, src, host,
   nativeBuildInputs ? [],
-  buildInputs ? [],
   buildPhase, buildMessage,
   installPhase ? "",
   postInstall ? "",
@@ -26,7 +25,8 @@ in
     nativeBuildInputs =
       nativeBuildInputs ++
       optional isDarwin xcodeWrapper;
-    inherit buildInputs;
+
+    inherit goPackagePath;
 
     # Fixes Cgo related build failures (see https://github.com/NixOS/nixpkgs/issues/25959 )
     hardeningDisable = [ "fortify" ];

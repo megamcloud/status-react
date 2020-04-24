@@ -1,7 +1,7 @@
 { config, lib, mkFilter, callPackage, fetchFromGitHub }:
 
 let
-  inherit (lib) strings traceVal traceValFn attrByPath importJSON;
+  inherit (lib) strings traceValFn attrByPath importJSON;
 
   utils = callPackage ./utils.nix { };
 
@@ -46,7 +46,7 @@ let
     shortRev = strings.substring 0 7 rev;
     rawVersion = versionJSON.version;
     cleanVersion = utils.sanitizeVersion versionJSON.version;
-    goPackagePath = traceVal "github.com/${owner}/${repo}";
+    goPackagePath = "github.com/${owner}/${repo}";
     src = fetchFromGitHub {
       inherit rev owner repo sha256;
       name = "${repo}-${shortRev}-source";

@@ -1,11 +1,12 @@
-{ lib, stdenv, utils, callPackage, buildGoPackage, go, gomobile, androidPkgs, openjdk
-, unzip, zip, xcodeWrapper,
-# custom arguments
-owner, repo, shortRev, rev, cleanVersion, goPackagePath, src
+{ lib, stdenv, utils, callPackage, buildGoPackage
+, go, gomobile, androidPkgs, openjdk
+, unzip, zip, xcodeWrapper
+# object with source attributes
+, source ? { }
 # mobile-only arguments
 , nimbusWrapper ? null
 , platform ? "android"
-, arch ? "arm64"
+, arch ? "arm"
 , goBuildFlags ? [ ]
 , goBuildLdFlags ? [ ] }:
 
@@ -18,12 +19,16 @@ let
   removeReferences = [ go ];
   removeExpr = refs: ''remove-references-to ${concatMapStrings (ref: " -t ${ref}") refs}'';
 
-  outputFileName = "status-go-${shortRev}-${arch}.aar";
-  nimbusBridgeVendorDir =
-    "$NIX_BUILD_TOP/go/src/${goPackagePath}/vendor/${goPackagePath}/eth-node/bridge/nimbus";
+  outputFileName = 
+    if platform == "ios" then "Statusgo.framework"
+    else "status-go-${source.shortRev}-${arch}.aar";
+
+  # used when we want to include the Nimbus wrapper
+  nimbusBridgeVendorDir = "$NIX_BUILD_TOP/go/src/${source.goPackagePath}/vendor/${source.goPackagePath}/eth-node/bridge/nimbus";
+
 in buildGoPackage {
-  pname = repo;
-  version = "${cleanVersion}-${substring 0 7 rev}";
+  pname = source.repo;
+  version = "${source.cleanVersion}-${substring 0 7 source.rev}";
 
   meta = {
     description = "The Status module that consumes go-ethereum.";
@@ -31,7 +36,7 @@ in buildGoPackage {
     platforms = with lib.platforms; linux ++ darwin;
   };
 
-  inherit goPackagePath src;
+  inherit (source) src goPackagePath;
 
   nativeBuildInputs = [ gomobile unzip zip ]
     ++ optional (platform == "android") openjdk
@@ -86,7 +91,7 @@ in buildGoPackage {
       ${optionalString (platform == "ios") "-iosversion=8.0"} \
       ${concatStringsSep " " goBuildFlags} \
       -o ${outputFileName} \
-      ${goPackagePath}/mobile
+      ${source.goPackagePath}/mobile
 
     ls -l ${outputFileName}
 

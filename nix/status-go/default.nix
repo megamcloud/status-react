@@ -107,8 +107,7 @@ let
   ];
 
   singleAndroidBuild = callPackage ./mobile/build.nix {
-    inherit utils gomobile goBuildFlags goBuildLdFlags;
-    inherit (source) owner repo rev shortRev cleanVersion src goPackagePath;
+    inherit utils source gomobile goBuildFlags goBuildLdFlags;
   };
 
 in {

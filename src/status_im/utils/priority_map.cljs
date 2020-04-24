@@ -1,6 +1,6 @@
 (ns status-im.utils.priority-map
   (:require [cljs.core :as core])
-  (:use [cljs.reader :only [register-tag-parser!]])
+  (:use [cljs.reader :refer [register-tag-parser!]])
   (:require-macros [cljs.core :as coreclj]))
 
 ;; from https://github.com/tailrecursion/cljs-priority-map/blob/master/src/cljs/tailrecursion/priority_map.cljs
@@ -41,7 +41,7 @@
   ISeqable
   (-seq [this]
     (if keyfn
-      (seq (for [[priority item-set] priority->set-of-items, item item-set]
+      (seq (for [[_ item-set] priority->set-of-items, item item-set]
              (MapEntry. item (item->priority item) nil)))
       (seq (for [[priority item-set] priority->set-of-items, item item-set]
              (MapEntry. item priority nil)))))
@@ -49,7 +49,7 @@
   IReversible
   (-rseq [coll]
     (if keyfn
-      (seq (for [[priority item-set] (rseq priority->set-of-items), item item-set]
+      (seq (for [[_ item-set] (rseq priority->set-of-items), item item-set]
              (MapEntry. item (item->priority item) nil)))
       (seq (for [[priority item-set] (rseq priority->set-of-items), item item-set]
              (MapEntry. item priority nil)))))
@@ -158,7 +158,7 @@
                  (subseq priority->set-of-items >= k)
                  (rsubseq priority->set-of-items <= k))]
       (if keyfn
-        (seq (for [[priority item-set] sets, item item-set]
+        (seq (for [[_ item-set] sets, item item-set]
                [item (item->priority item)]))
         (seq (for [[priority item-set] sets, item item-set]
                [item priority])))))

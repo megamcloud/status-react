@@ -33,7 +33,7 @@
    (show-popup title content on-dismiss)))
 
 (defn show-confirmation
-  [{:keys [title content confirm-button-text on-dismiss on-accept on-cancel cancel-button-text
+  [{:keys [title content confirm-button-text on-accept on-cancel cancel-button-text
            extra-options]}]
   (.alert (.-Alert react-native)
           title

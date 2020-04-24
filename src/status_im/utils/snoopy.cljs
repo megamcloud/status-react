@@ -1,5 +1,6 @@
 (ns status-im.utils.snoopy
-  (:require [status-im.utils.config :as config]
+  (:require [clojure.string :as clojure.string]
+            [status-im.utils.config :as config]
             ["react-native/Libraries/vendor/emitter/EventEmitter" :refer [EventEmitter]]
             ["rn-snoopy" :default snoopy]
             ["rn-snoopy/stream/filter" :default sn-filter]

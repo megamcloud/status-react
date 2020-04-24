@@ -8,7 +8,6 @@
             [status-im.constants :as constants]
             [status-im.ethereum.ens :as ens]
             [status-im.ethereum.core :as ethereum]
-            [status-im.pairing.core :as pairing]
             [status-im.utils.security :as security]
             [status-im.ui.components.list-selection :as list-selection]
             [status-im.ui.components.react :as react]

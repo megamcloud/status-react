@@ -1,6 +1,5 @@
 (ns status-im.utils.config
-  (:require [status-im.utils.platform :as platform]
-            [clojure.string :as string]
+  (:require [clojure.string :as string]
             ["react-native-config" :default react-native-config]))
 
 (def config

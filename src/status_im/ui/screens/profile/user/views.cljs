@@ -61,7 +61,7 @@
                                         ;:icon                :main-icons/link
           :accessibility-label :share-my-contact-code-button}]]])))
 
-(defn- header [{:keys [photo-path public-key ens-name] :as account} photo-added?]
+(defn- header [account photo-added?]
   [profile.components/profile-header
    {:contact                account
     ;;set to true if we want to re-enable custom icon

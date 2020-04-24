@@ -31,7 +31,7 @@
   (when n
     (try
       (new BigNumber (normalize (str n)))
-      (catch :default err nil))))
+      (catch :default _ nil))))
 
 (defn valid? [^js bn]
   (when bn

@@ -3,7 +3,6 @@
             [re-frame.db]
             [status-im.utils.async :as async-util]
             [status-im.mailserver.core :as mailserver]
-            [status-im.utils.datetime :as datetime]
             [status-im.utils.fx :as fx]))
 
 (defonce polling-executor (atom nil))

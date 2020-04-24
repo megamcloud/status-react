@@ -3,7 +3,6 @@
             [reagent.core :as reagent]
             [status-im.ui.components.camera :as camera]
             [status-im.ui.components.react :as react]
-            [status-im.i18n :as i18n]
             [status-im.ui.screens.profile.photo-capture.styles :as styles]
             [status-im.utils.image-processing :as image-processing]
             [taoensso.timbre :as log]

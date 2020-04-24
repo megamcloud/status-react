@@ -1,21 +1,15 @@
 (ns status-im.ui.screens.routing.core
-  (:require
-   [reagent.core :as reagent]
-   [status-im.ui.components.react :as react]
-   [status-im.ui.components.colors :as colors]
-   [re-frame.core :as re-frame]
-   [taoensso.timbre :as log]
-   [status-im.utils.platform :as platform]
-   ["react" :refer (useCallback useEffect)]
-   ["react-native" :refer (BackHandler)]
-   ["@react-navigation/native" :refer (NavigationContainer StackActions CommonActions useFocusEffect) :as react-navigation]
-   ["@react-navigation/stack" :refer (createStackNavigator TransitionPresets)]
-   ["@react-navigation/bottom-tabs" :refer (createBottomTabNavigator)]
-   [oops.core :refer [ocall oget]]
-   [status-im.utils.core :as utils]
-   [status-im.ui.components.tabbar.core :as tabbar]
-   [status-im.ui.components.status-bar.view :as status-bar]
-   [status-im.ui.components.tabbar.styles :as tabs.styles]))
+  (:require [reagent.core :as reagent]
+            [status-im.ui.components.colors :as colors]
+            [re-frame.core :as re-frame]
+            [taoensso.timbre :as log]
+            [status-im.utils.platform :as platform]
+            ["react" :refer (useCallback useEffect)]
+            ["react-native" :refer (BackHandler)]
+            ["@react-navigation/native" :refer (NavigationContainer StackActions CommonActions useFocusEffect) :as react-navigation]
+            ["@react-navigation/stack" :refer (createStackNavigator TransitionPresets)]
+            ["@react-navigation/bottom-tabs" :refer (createBottomTabNavigator)]
+            [oops.core :refer [ocall oget]]))
 
 (defonce native react-navigation)
 

@@ -146,7 +146,7 @@
 
 ;; NOTE: Is this needed?
 (defview filter-history []
-  (letsubs [{:keys [filters all-filters? on-touch-select-all]}
+  (letsubs [{:keys [filters on-touch-select-all]}
             [:wallet.transactions.filters/screen]]
     [react/view styles/filter-container
      [topbar/topbar {:title       :t/transactions-filter-title

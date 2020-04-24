@@ -30,7 +30,7 @@
     {:name (.-name ^js e) :message (.-message ^js e) :stack (.-stack ^js e)}
     {:message (pr-str e)}))
 
-(defn handle-error [e is-fatal]
+(defn handle-error [e _]
   (let [f (format-error e)]
     (js/console.log (str "PRETTY PRINTED EXCEPTION"
                          "\n\n***\nNAME: "

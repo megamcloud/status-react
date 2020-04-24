@@ -1,6 +1,6 @@
 (ns status-im.utils.core
   (:require [clojure.string :as str]
-            [taoensso.timbre :as log]))
+            #?(:cljs [taoensso.timbre :as log])))
 
 (defn truncate-str
   "Given string and max threshold, trims the string to threshold length with `...`

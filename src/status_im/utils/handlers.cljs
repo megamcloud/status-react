@@ -13,7 +13,7 @@
     db))
 
 (defn- pretty-print-event [ctx]
-  (let [[first second] (get-coeffect ctx :event)]
+  (let [[first _] (get-coeffect ctx :event)]
     first))
 
 (def debug-handlers-names

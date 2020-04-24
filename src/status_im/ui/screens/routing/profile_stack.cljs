@@ -1,6 +1,5 @@
 (ns status-im.ui.screens.routing.profile-stack
-  (:require [status-im.utils.config :as config]
-            [status-im.ui.screens.profile.user.views :as profile.user]
+  (:require [status-im.ui.screens.profile.user.views :as profile.user]
             [status-im.ui.screens.ens.views :as ens]
             [status-im.ui.screens.contacts-list.views :as contacts-list]
             [status-im.ui.screens.profile.contact.views :as profile.contact]

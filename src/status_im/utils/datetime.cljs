@@ -1,14 +1,13 @@
 (ns status-im.utils.datetime
   (:require [re-frame.core :as re-frame]
-            [cljs-time.core :as t :refer [date-time plus minus days hours before?]]
-            [cljs-time.coerce :refer [from-long to-long from-date]]
+            [cljs-time.core :as t :refer [plus minus days hours before?]]
+            [cljs-time.coerce :refer [from-long from-date]]
             [cljs-time.format :refer [formatters
                                       formatter
                                       unparse]]
             [status-im.i18n :refer [label label-pluralize]]
             [status-im.native-module.core :as status]
             [clojure.string :as s]
-            [goog.object :refer [get]]
             [status-im.goog.i18n :as goog.18n]))
 
 (defn now []
@@ -42,7 +41,7 @@
 (defn- time-format [locsym] (if (is24Hour locsym) "HH:mm:ss" "h:mm:ss a"))
 
 ;; date formats
-(defn- short-date-format [locsym] "dd MMM")
+(defn- short-date-format [_] "dd MMM")
 (defn- medium-date-format [^js locsym] (nth (.-DATEFORMATS locsym) 2)) ; get medium format from current locale symbols
 
 ;; date-time formats

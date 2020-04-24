@@ -2,7 +2,6 @@
   (:require-macros [status-im.utils.views :refer [defview letsubs] :as views])
   (:require [status-im.utils.universal-links.core :as utils.universal-links]
             [re-frame.core :as re-frame]
-            [status-im.utils.platform :as platform]
             [status-im.ui.screens.about-app.views :as about-app]
             [status-im.ui.components.react :as react]
             [status-im.ui.components.bottom-sheet.core :as bottom-sheet]

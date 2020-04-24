@@ -34,7 +34,7 @@
                                :duration        500
                                :useNativeDriver true})])))
 
-(defn popover-view [popover window-height]
+(defn popover-view [_ window-height]
   (let [bottom-anim-value (anim/create-value window-height)
         alpha-value       (anim/create-value 0)
         clear-timeout     (atom nil)
@@ -43,8 +43,8 @@
         request-close     (fn []
                             (reset! clear-timeout
                                     (js/setTimeout
-                                     #(do (reset! current-popover nil)
-                                          (re-frame/dispatch [:hide-popover])) 200))
+                                      #(do (reset! current-popover nil)
+                                           (re-frame/dispatch [:hide-popover])) 200))
                             (hide-panel-anim
                              bottom-anim-value alpha-value (- window-height))
                             true)

@@ -37,4 +37,4 @@
                              desktop-views/main)})))
 
 (defn init []
-  (core/init app-root))
+  (core/init))

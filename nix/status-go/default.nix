@@ -11,9 +11,6 @@ let
   #buildStatusGoDesktopLib = callPackage ./desktop {
   #  inherit utils;
   #};
-  #buildStatusGoMobileLib = callPackage ./mobile {
-  #  inherit gomobile utils;
-  #};
 
   #hostConfigs = {
   #  darwin = {
@@ -103,14 +100,12 @@ let
     "-w" # -w disables DWARF debugging information
   ];
 
-  main = callPackage ./mobile {
+in {
+  mobile = callPackage ./mobile {
     inherit source goBuildFlags goBuildLdFlags;
   };
 
-in {
   #shell = mergeSh mkShell {} (catAttrs "shell" platforms);
-
-  inherit main;
 
   # CHILD DERIVATIONS
   #inherit android ios desktop;

@@ -8,7 +8,8 @@
 , platform ? "android"
 , arch ? "arm"
 , goBuildFlags ? [ ]
-, goBuildLdFlags ? [ ] }:
+, goBuildLdFlags ? [ ]
+, outputFileName ? "status-go-${source.shortRev}-${platform}-${arch}.aar" };
 
 let
   inherit (lib)
@@ -19,16 +20,12 @@ let
   removeReferences = [ go ];
   removeExpr = refs: ''remove-references-to ${concatMapStrings (ref: " -t ${ref}") refs}'';
 
-  outputFileName = 
-    if platform == "ios" then "Statusgo.framework"
-    else "status-go-${source.shortRev}-${arch}.aar";
-
   # used when we want to include the Nimbus wrapper
   nimbusBridgeVendorDir = "$NIX_BUILD_TOP/go/src/${source.goPackagePath}/vendor/${source.goPackagePath}/eth-node/bridge/nimbus";
 
 in buildGoPackage {
   pname = source.repo;
-  version = "${source.cleanVersion}-${substring 0 7 source.rev}-${platform}-${arch}";
+  version = "${source.cleanVersion}-${source.shortRev}-${platform}-${arch}";
 
   meta = {
     description = "The Status module that consumes go-ethereum.";

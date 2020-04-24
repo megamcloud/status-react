@@ -62,6 +62,7 @@
     "@babel/plugin-transform-block-scoping": "7.0.0",
     "@babel/preset-env": "7.1.0",
     "@babel/register": "7.0.0",
+    "clj-kondo": "^2020.1.13",
     "coveralls": "^3.0.4",
     "jest": "^25.1.0",
     "nyc": "^14.1.1",

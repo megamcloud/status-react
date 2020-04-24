@@ -82,8 +82,8 @@
 
 (def default-interceptors
   [debug-handlers-names
-   (when js/goog.DEBUG
-     check-spec)
+   (when false #_js/goog.DEBUG
+         check-spec)
    (re-frame/inject-cofx :now)])
 
 (defn- parse-json

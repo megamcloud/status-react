@@ -31,6 +31,7 @@ let
       mkFilter = import ./tools/mkFilter.nix { inherit (stdenv) lib; };
       mkShell = import ./tools/mkShell.nix { inherit pkgs; stdenv = stdenvNoCC; };
       mergeSh = import ./tools/mergeSh.nix { inherit (stdenv) lib; };
+      utils = import ./tools/utils.nix { inherit (stdenv) lib; inherit xcodeWrapper; };
 
       # android environement
       androidEnvCustom = callPackage ./mobile/android/sdk { };
@@ -43,6 +44,7 @@ let
       nodejs = pkgs.nodejs-12_x;
       yarn = pkgs.yarn.override { inherit nodejs; };
       go = callPackage ./patched-go { baseGo = pkgs.go_1_14; };
+      gomobile = callPackage ./tools/gomobile { };
 
       # custom builders
       buildGoPackage = pkgs.buildGo114Package.override { inherit go; };

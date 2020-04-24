@@ -1,57 +1,70 @@
-{ platform ? "android",
+{ lib, stdenv, callPackage, zip, unzip,
+  goBuildFlags ? [],
+  goBuildLdFlags ? [],
+  source ? { },
+  platform ? "android",
   enableNimbus ? false }:
 
 let
-  mobileConfigs = {
-    android = rec {
-      platform = "android";
-      architectures = {
-        arm64 = {
-          #nimbus = enableNimbus; nimbus.wrappers-android.arm64;
-          outputFileName = "status-go-${source.shortRev}-arm64.aar";
-        };
-        arm = {
-          #nimbus = assert enableNimbus; nimbus.wrappers-android.arm;
-          outputFileName = "status-go-${source.shortRev}-arm.aar";
-        };
-        x86 = {
-          #nimbus = assert enableNimbus; nimbus.wrappers-android.x86;
-          outputFileName = "status-go-${source.shortRev}-386.aar";
-        };
-      };
-    };
-    ios = rec {
-      platform = "ios";
-      outputFileName = "Statusgo.framework";
-      platforms = {
-        ios = {
-          linkNimbus = enableNimbus;
-          nimbus = assert false; null; # TODO: Currently we don't support Nimbus on iOS
-          gomobileTarget = name;
-        };
-      };
-    };
+  inherit (lib) substring concatStrings mapAttrsToList;
+
+  # Architectures viable for status-go builds
+  platformArchs = {
+    android = [ "arm64" "arm" "386" ];
+    ios = [ "ios" ];
   };
+
+  # Build status-go for architecture provided
+  buildArch = arch:
+    callPackage ./build.nix {
+      inherit platform arch source goBuildFlags goBuildLdFlags;
+    };
+
+  # Build status-go for all architectures
+  archBuilds = map (arch: buildArch arch) platformArchs.${platform};
+  #nimbus = nimbus.wrappers-android.arm64;
+  #nimbus = nimbus.wrappers-android.arm;
+  #nimbus = nimbus.wrappers-android.x86;
+
+  outputFileName = 
+    if platform == "ios" then "Statusgo.framework"
+    else "status-go-${source.shortRev}.aar";
 in
-  mkDerivation {
-    name = ;
-    buildInputs = [ ];
+  stdenv.mkDerivation {
+    pname = source.repo;
+    version = "${source.cleanVersion}-${substring 0 7 source.rev}-${platform}";
+
+    srcs = archBuilds;
+
+    unpackPhase = ''
+      runHook preUnpack
+      mkdir archs
+      for _src in $srcs; do
+        ln -s $_src/*.aar ./archs/
+      done
+      runHook postUnpack
+    '';
 
     # Merge the platform-specific .aar files into a single one
     buildPhase = ''
       local mergeDir='.aar'
       mkdir $mergeDir
-      ${
-        concatStrings (mapAttrsToList (_: platformConfig: ''
-          unzip -d $mergeDir -q -n -u ${platformConfig.outputFileName}
-          rm ${platformConfig.outputFileName}
-        '') targetConfig.platforms)
-      }
+
+      for archive in ./archs/*; do
+        echo "Unpacking: $archive"
+        ${unzip}/bin/unzip -d $mergeDir -q -n -u $archive
+      done
+
       pushd $mergeDir > /dev/null
-        zip -r -o ../${targetConfig.outputFileName} *
+        ${zip}/bin/zip -r -o ../${outputFileName} *
       popd > /dev/null
       rm -rf $mergeDir
-      unzip -l ${targetConfig.outputFileName}
+      ${unzip}/bin/unzip -l ${outputFileName}
+    '';
+
+    installPhase = ''
+      mkdir -p $out
+      mv ${outputFileName} $out/
     '';
     # TODO: Merge iOS packages when linking with libnimbus.a
   }

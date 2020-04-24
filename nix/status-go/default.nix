@@ -83,9 +83,6 @@ let
     if enableNimbus then callPackage ./nimbus { }
     else { wrappers-android = { }; };
 
-  utils = callPackage ./utils.nix { };
-  gomobile = callPackage ./gomobile { inherit utils; };
-
   # source can be changed with a local override
   source = callPackage ./source.nix { };
 
@@ -106,14 +103,14 @@ let
     "-w" # -w disables DWARF debugging information
   ];
 
-  singleAndroidBuild = callPackage ./mobile/build.nix {
-    inherit utils source gomobile goBuildFlags goBuildLdFlags;
+  main = callPackage ./mobile {
+    inherit source goBuildFlags goBuildLdFlags;
   };
 
 in {
   #shell = mergeSh mkShell {} (catAttrs "shell" platforms);
 
-  inherit singleAndroidBuild;
+  inherit main;
 
   # CHILD DERIVATIONS
   #inherit android ios desktop;

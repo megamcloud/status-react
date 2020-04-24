@@ -1,9 +1,7 @@
-{ config, lib, mkFilter, callPackage, fetchFromGitHub }:
+{ config, utils, lib, mkFilter, callPackage, fetchFromGitHub }:
 
 let
   inherit (lib) strings traceValFn attrByPath importJSON;
-
-  utils = callPackage ./utils.nix { };
 
   srcOverride = attrByPath [ "status-im" "status-go" "src-override" ] "" config;
   # Warning message about using local sources

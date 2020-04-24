@@ -1,5 +1,5 @@
 { lib, stdenv, utils, callPackage, buildGoPackage
-, go, gomobile, androidPkgs, openjdk
+, go, androidPkgs, openjdk, gomobile
 , unzip, zip, xcodeWrapper
 # object with source attributes
 , source ? { }
@@ -28,7 +28,7 @@ let
 
 in buildGoPackage {
   pname = source.repo;
-  version = "${source.cleanVersion}-${substring 0 7 source.rev}";
+  version = "${source.cleanVersion}-${substring 0 7 source.rev}-${platform}-${arch}";
 
   meta = {
     description = "The Status module that consumes go-ethereum.";
@@ -93,8 +93,6 @@ in buildGoPackage {
       -o ${outputFileName} \
       ${source.goPackagePath}/mobile
 
-    ls -l ${outputFileName}
-
     rm -rf $NIX_GOWORKDIR
 
     runHook postBuild
@@ -110,8 +108,8 @@ in buildGoPackage {
   '';
 
   installPhase = ''
-    mkdir -p $out/lib
-    mv ${outputFileName} $out/lib/
+    mkdir -p $out
+    mv ${outputFileName} $out/
   '';
 
   outputs = [ "out" ];

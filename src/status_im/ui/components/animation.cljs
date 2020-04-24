@@ -7,7 +7,7 @@
   ([^js anim callback] (.start anim callback)))
 
 (defn anim-loop [animation]
-  (.loop react/animated animation))
+  (.loop ^js react/animated animation))
 
 (defn interpolate [^js anim-value config]
   (.interpolate anim-value (clj->js config)))
@@ -20,31 +20,31 @@
            useNativeDriver)))
 
 (defn timing [anim-value config]
-  (.timing react/animated
+  (.timing ^js react/animated
            anim-value
            (clj->js (add-native-driver config))))
 
 (defn spring [anim-value config]
-  (.spring react/animated
+  (.spring ^js react/animated
            anim-value
            (clj->js (add-native-driver config))))
 
 (defn decay [anim-value config]
-  (.decay react/animated
+  (.decay ^js react/animated
           anim-value
           (clj->js (add-native-driver config))))
 
 (defn anim-sequence [animations]
-  (.sequence react/animated (clj->js animations)))
+  (.sequence ^js react/animated (clj->js animations)))
 
 (defn parallel [animations]
-  (.parallel react/animated (clj->js animations)))
+  (.parallel ^js react/animated (clj->js animations)))
 
 (defn anim-delay [duration]
-  (.delay react/animated duration))
+  (.delay ^js react/animated duration))
 
 (defn event [mapping config]
-  (.event react/animated (clj->js mapping) (clj->js config)))
+  (.event ^js react/animated (clj->js mapping) (clj->js config)))
 
 (defn add-listener [^js anim-value listener]
   (.addListener anim-value listener))

@@ -109,7 +109,7 @@
                        #(re-frame/dispatch [:token-uri-success
                                             tokenId
                                             (when %
-                                              (subs % (.indexOf % "http")))]))))) ;; extra chars in rinkeby
+                                              (subs % (.indexOf ^js % "http")))]))))) ;; extra chars in rinkeby
 
 ;;Superrare
 (def superrare :SUPR)

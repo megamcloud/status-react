@@ -16,7 +16,7 @@
   (Chance. seed))
 
 (defn seeded-rand-int
-  [^js gen n] (.integer gen #js {:min 0 :max (dec n)}))
+  [^js gen n] (.integer ^js gen (clj->js {:min 0 :max (dec n)})))
 
 (defn seeded-rand-nth
   [gen coll]

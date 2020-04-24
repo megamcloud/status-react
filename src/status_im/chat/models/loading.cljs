@@ -12,7 +12,8 @@
             [taoensso.timbre :as log]
             [status-im.chat.models.message-seen :as message-seen]))
 
-(defn cursor->clock-value [cursor]
+(defn cursor->clock-value
+  [^js cursor]
   (js/parseInt (.substring cursor 51 64)))
 
 (defn clock-value->cursor [clock-value]

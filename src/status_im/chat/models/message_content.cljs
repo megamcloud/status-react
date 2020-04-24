@@ -14,14 +14,14 @@
                         [:mention constants/regx-mention]])
 
 (defn- blank-string [size]
-  (.repeat " " size))
+  (.repeat ^js " " size))
 
 (defn- clear-ranges [ranges input]
   (reduce (fn [acc [start end]]
-            (.concat (subs acc 0 start) (blank-string (- end start)) (subs acc end)))
+            (.concat ^js (subs acc 0 start) (blank-string (- end start)) (subs acc end)))
           input ranges))
 
-(defn- query-regex [regex content]
+(defn- query-regex [^js regex content]
   (loop [input   content
          matches []
          offset  0]

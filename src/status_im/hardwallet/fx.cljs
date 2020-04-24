@@ -132,7 +132,7 @@
 
 (re-frame/reg-fx
  :hardwallet/remove-listener-to-hardware-back-button
- (fn [listener]
+ (fn [^js listener]
    (.remove listener)))
 
 (re-frame/reg-fx

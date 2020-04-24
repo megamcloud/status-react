@@ -42,7 +42,7 @@
                       (fn [_]
                         (when-not (zero? @keyboard-height)
                           (dispatch [:set :keyboard-height 0]))))
-        (.hide react/splash-screen)
+        (.hide ^js react/splash-screen)
         (.addEventListener ^js react/app-state "change" app-state-change-handler)
         (.addEventListener react-native-languages "change" on-languages-change)
         (.addEventListener react-native-shake

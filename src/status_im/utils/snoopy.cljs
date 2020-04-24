@@ -53,16 +53,16 @@
 
 (defn threshold-warnings
   [{:keys [filter-fn label tick? print-events? threshold events threshold-message]}]
-  (.subscribe ((bars
-                (fn [^js a] (.-length a))
-                threshold
-                tick?
-                true
-                label
-                threshold-message)
-               ((buffer) ((sn-filter (create-filter filter-fn)
-                                     print-events?)
-                          events)))))
+  (.subscribe ^js ((bars
+                    (fn [^js a] (.-length a))
+                    threshold
+                    tick?
+                    true
+                    label
+                    threshold-message)
+                   ((buffer) ((sn-filter (create-filter filter-fn)
+                                         print-events?)
+                              events)))))
 
 ;; In order to enable snoopy set SNOOPY=1 in .env file.
 ;; By default events are not printed and you will see warnings only when

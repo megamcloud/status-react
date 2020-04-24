@@ -23,22 +23,28 @@
   (doseq [event ["keyCardOnConnected" "keyCardOnDisconnected"]]
     (.removeAllListeners ^js event-emitter event)))
 
-(defn remove-event-listener [ ^js event]
+(defn remove-event-listener
+  [ ^js event]
   (.remove event))
 
-(defn on-card-connected [callback]
+(defn on-card-connected
+  [callback]
   (.addListener ^js event-emitter "keyCardOnConnected" callback))
 
-(defn on-card-disconnected [callback]
+(defn on-card-disconnected
+  [callback]
   (.addListener ^js event-emitter "keyCardOnDisconnected" callback))
 
-(defn on-nfc-enabled [callback]
+(defn on-nfc-enabled
+  [callback]
   (.addListener ^js event-emitter "keyCardOnNFCEnabled" callback))
 
-(defn on-nfc-disabled [callback]
+(defn on-nfc-disabled
+  [callback]
   (.addListener ^js event-emitter "keyCardOnNFCDisabled" callback))
 
-(defn register-card-events [args]
+(defn register-card-events
+  [args]
   (doseq [listener @active-listeners]
     (remove-event-listener listener))
   (reset! active-listeners
@@ -47,7 +53,8 @@
            (on-nfc-enabled (:on-nfc-enabled args))
            (on-nfc-disabled (:on-nfc-disabled args))]))
 
-(defn get-application-info [{:keys [pairing on-success on-failure]}]
+(defn get-application-info
+  [{:keys [pairing on-success on-failure]}]
   (.. status-keycard
       (getApplicationInfo (str pairing))
       (then on-success)

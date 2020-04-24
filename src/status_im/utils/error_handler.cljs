@@ -50,7 +50,7 @@
   (downgrade-reagent-errors!)
   (when-not @!error-handler-set?
     (reset! !error-handler-set? true)
-    (let [orig-handler (some-> js/ErrorUtils .-getGlobalHandler (.call))]
+    (let [^js orig-handler (some-> js/ErrorUtils ^js .-getGlobalHandler (.call))]
       (js/ErrorUtils.setGlobalHandler
        (fn [^js e isFatal]
          (handle-error e isFatal)

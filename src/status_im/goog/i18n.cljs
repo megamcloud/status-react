@@ -444,5 +444,5 @@
                                              (string/replace pat #"\s*¤\s*" "")))
                  clj->js)))
      (.format
-      (new goog/i18n.NumberFormat goog/i18n.NumberFormat.Format.CURRENCY currency-code)
+      ^js (new goog/i18n.NumberFormat goog/i18n.NumberFormat.Format.CURRENCY currency-code)
       value))))

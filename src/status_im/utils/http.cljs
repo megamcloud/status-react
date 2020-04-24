@@ -9,7 +9,7 @@
 (def http-request-default-timeout-ms 3000)
 
 (defn- headers [^js response]
-  (let [entries (es6-iterator-seq (.entries (.-headers response)))]
+  (let [entries (es6-iterator-seq (.entries ^js (.-headers response)))]
     (reduce #(assoc %1 (string/trim (string/lower-case (first %2))) (string/trim (second %2))) {} entries)))
 
 (defn raw-post
@@ -87,7 +87,7 @@
         (clj->js {:method  "GET"
                   :headers {"Cache-Control" "no-cache"}
                   :timeout (or timeout-ms http-request-default-timeout-ms)}))
-       (.then (fn [response]
+       (.then (fn [^js response]
                 (->
                  (.text response)
                  (.then (fn [body]
@@ -141,7 +141,7 @@
 
 (defn url-host [url]
   (try
-    (when-let [host (.getDomain (goog.Uri. url))]
+    (when-let [host (.getDomain ^js (goog.Uri. url))]
       (when-not (string/blank? host)
         (string/replace host #"www." "")))
     (catch :default _ nil)))

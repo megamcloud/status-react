@@ -10,7 +10,7 @@
 
 (defn remove-back-listener []
   (when @back-listener
-    (.remove @back-listener)
+    (.remove ^js @back-listener)
     (reset! back-listener nil)))
 
 (defn add-back-listener []

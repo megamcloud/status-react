@@ -77,7 +77,7 @@
             #(when (and (security/safe-link? destination)
                         (security/safe-link-text? message-text))
                (if platform/desktop?
-                 (.openURL react/linking (http/normalize-url destination))
+                 (.openURL ^js react/linking (http/normalize-url destination))
                  (re-frame/dispatch
                   [:browser.ui/message-link-pressed destination])))}
            destination])

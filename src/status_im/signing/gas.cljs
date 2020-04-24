@@ -13,7 +13,7 @@
 (defmethod get-error-label-key :gasPrice [_ value]
   (cond
     (not value) :t/invalid-number
-    (.lt (money/->wei :gwei value) min-gas-price-wei) :t/wallet-send-min-wei
+    (.lt ^js (money/->wei :gwei value) min-gas-price-wei) :t/wallet-send-min-wei
     (-> (money/->wei :gwei value) .decimalPlaces pos?) :t/invalid-number))
 
 (defmethod get-error-label-key :gas [_ ^js value]

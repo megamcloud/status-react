@@ -64,7 +64,7 @@
             (fn []
               ;; Reset currently mounted text inputs to their default values
               ;; on navigating away; this is a privacy measure
-              (doseq [[text-input default-value] @react/text-input-refs]
+              (doseq [[^js text-input default-value] @react/text-input-refs]
                 (.setNativeProps text-input (clj->js {:text default-value}))))))
    #js [navigation]))
 

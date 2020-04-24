@@ -22,7 +22,7 @@
             {:name :t/datetime-hour :limit 86400 :in-second 3600}
             {:name :t/datetime-day :limit nil :in-second 86400}])
 
-(def time-zone-offset (hours (- (/ (.getTimezoneOffset (js/Date.)) 60))))
+(def time-zone-offset (hours (- (/ (.getTimezoneOffset ^js (js/Date.)) 60))))
 
 ;; detects if given locale symbols timeformat generates AM/PM ("a")
 (defn- is24Hour-locsym [^js locsym]
@@ -82,25 +82,25 @@
 
 (defn to-short-str [ms]
   (to-str ms
-          #(.format (date-fmt) %)
+          #(.format ^js (date-fmt) %)
           #(label :t/datetime-yesterday)
-          #(.format (time-fmt) %)))
+          #(.format ^js (time-fmt) %)))
 
 (defn day-relative [ms]
   (to-str ms
-          #(.format (date-fmt) %)
+          #(.format ^js (date-fmt) %)
           #(label :t/datetime-yesterday)
           #(label :t/datetime-today)))
 
 (defn timestamp->mini-date [ms]
-  (.format (short-date-fmt) (-> ms
-                                from-long
-                                (plus time-zone-offset))))
+  (.format ^js (short-date-fmt) (-> ms
+                                    from-long
+                                    (plus time-zone-offset))))
 
 (defn timestamp->time [ms]
-  (.format (time-fmt) (-> ms
-                          from-long
-                          (plus time-zone-offset))))
+  (.format ^js (time-fmt) (-> ms
+                              from-long
+                              (plus time-zone-offset))))
 
 (defn timestamp->date-key [ms]
   (keyword (unparse (formatter "YYYYMMDD") (-> ms
@@ -108,9 +108,9 @@
                                                (plus time-zone-offset)))))
 
 (defn timestamp->long-date [ms]
-  (.format (date-time-fmt) (-> ms
-                               from-long
-                               (plus time-zone-offset))))
+  (.format ^js (date-time-fmt) (-> ms
+                                   from-long
+                                   (plus time-zone-offset))))
 
 (defn format-time-ago [diff unit]
   (let [name (label-pluralize diff (:name unit))]

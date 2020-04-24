@@ -487,7 +487,7 @@
       ens-verified
       (assoc ::resolve-address
              {:registry (get ens/ens-registries chain)
-              :ens-name (if (= (.indexOf name ".") -1)
+              :ens-name (if (= (.indexOf ^js name ".") -1)
                           (stateofus/subdomain name)
                           name)
               ;;TODO handle errors and timeout for ens name resolution

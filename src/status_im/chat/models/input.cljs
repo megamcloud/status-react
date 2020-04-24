@@ -131,7 +131,7 @@
 
 (re-frame/reg-fx
  ::focus-rn-component
- (fn [ref]
+ (fn [^js ref]
    (try
      (.focus ref)
      (catch :default e

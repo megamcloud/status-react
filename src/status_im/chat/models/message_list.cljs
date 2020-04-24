@@ -141,15 +141,15 @@
                                (get-next-element iter))
         ^js message-with-pos-data (add-group-info message previous-message next-message)]
     (cond->
-     (.update iter message-with-pos-data)
+        (.update iter message-with-pos-data)
 
       next-message
-      (-> (.find next-message)
+      (-> ^js (.find next-message)
           (.update (update-next-message message-with-pos-data next-message)))
 
       (and previous-message
            (not= :datemark (:type previous-message)))
-      (-> (.find previous-message)
+      (-> ^js (.find previous-message)
           (.update (update-previous-message message-with-pos-data previous-message))))))
 
 (defn remove-message

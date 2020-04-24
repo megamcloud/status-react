@@ -178,7 +178,7 @@
   [{:keys [db] :as cofx} m]
   (let [current-url (get-current-url (get-current-browser db))
         host        (http/url-host current-url)
-        path        (subs current-url (+ (.indexOf current-url host) (count host)))
+        path        (subs current-url (+ (.indexOf ^js current-url host) (count host)))
         gateway     (storage-gateway m)]
     (fx/merge cofx
               {:db (-> (update db :browser/options
@@ -216,7 +216,8 @@
         options (get-in cofx [:db :browser/options])
         current-url (:url options)]
     (when (and (not= "about:blank" url) (not= current-url url) (not= (str current-url "/") url))
-      (let [resolved-ens (first (filter #(not= (.indexOf url (second %)) -1) (:resolved-ens options)))
+
+      (let [resolved-ens (first (filter #(not= (.indexOf ^js url (second %)) -1) (:resolved-ens options)))
             resolved-url (if resolved-ens (string/replace url (second resolved-ens) (first resolved-ens)) url)]
         (fx/merge cofx
                   (update-browser-history browser resolved-url)
@@ -395,7 +396,8 @@
       (= type constants/api-request)
       (browser.permissions/process-permission cofx dapp-name permission messageId params))))
 
-(defn filter-letters-numbers-and-replace-dot-on-dash [value]
+(defn filter-letters-numbers-and-replace-dot-on-dash
+  [^js value]
   (let [cc (.charCodeAt value 0)]
     (cond (or (and (> cc 96) (< cc 123))
               (and (> cc 64) (< cc 91))

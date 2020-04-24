@@ -12,7 +12,7 @@
 (def resources-dir "status-modules/resources/")
 
 (defn check-resources-dir []
-  (let [resources (File. resources-dir)]
+  (let [^js resources (File. resources-dir)]
     (when-not (.exists resources)
       (.mkdir resources))))
 

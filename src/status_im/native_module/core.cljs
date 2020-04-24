@@ -10,38 +10,38 @@
 
 (defn status []
   (when (exists? (.-NativeModules react-native))
-    (.-Status  ^js (.-NativeModules react-native))))
+    (.-Status ^js (.-NativeModules react-native))))
 
 (def adjust-resize 16)
 
 (defn clear-web-data []
   (log/debug "[native-module] clear-web-data")
   (when (status)
-    (.clearCookies  ^js(status))
-    (.clearStorageAPIs  ^js (status))))
+    (.clearCookies ^js (status))
+    (.clearStorageAPIs ^js (status))))
 
 (defn init-keystore []
   (log/debug "[native-module] init-keystore")
-  (.initKeystore  ^js (status)))
+  (.initKeystore ^js (status)))
 
 (defn open-accounts [callback]
   (log/debug "[native-module] open-accounts")
-  (.openAccounts  ^js (status) #(callback (types/json->clj %))))
+  (.openAccounts^js (status) #(callback (types/json->clj %))))
 
 (defn prepare-dir-and-update-config
   [config callback]
   (log/debug "[native-module] prepare-dir-and-update-config")
-  (.prepareDirAndUpdateConfig  ^js (status)
-                               config
-                               #(callback (types/json->clj %))))
+  (.prepareDirAndUpdateConfig ^js (status)
+                              config
+                              #(callback (types/json->clj %))))
 
 (defn enable-notifications []
   (log/debug "[native-module] enable-notifications")
-  (.enableNotifications  ^js (status)))
+  (.enableNotifications ^js (status)))
 
 (defn disable-notifications []
   (log/debug "[native-module] disable-notifications")
-  (.disableNotifications  ^js (status)))
+  (.disableNotifications ^js (status)))
 
 (defn save-account-and-login
   "NOTE: beware, the password has to be sha3 hashed"
@@ -64,16 +64,16 @@
   [account-data hashed-password]
   (log/debug "[native-module] login")
   (clear-web-data)
-  (.login  ^js (status) account-data hashed-password))
+  (.login ^js (status) account-data hashed-password))
 
 (defn logout []
   (log/debug "[native-module] logout")
   (clear-web-data)
-  (.logout  ^js (status)))
+  (.logout ^js (status)))
 
 (defonce listener
-  (.addListener  ^js react/device-event-emitter "gethEvent"
-                 #(re-frame/dispatch [:signals/signal-received (.-jsonEvent ^js %)])))
+  (.addListener ^js react/device-event-emitter "gethEvent"
+                #(re-frame/dispatch [:signals/signal-received (.-jsonEvent ^js %)])))
 
 (defn multiaccount-load-account
   "NOTE: beware, the password has to be sha3 hashed
@@ -83,18 +83,18 @@
    from memory"
   [address hashed-password callback]
   (log/debug "[native-module] multiaccount-load-account")
-  (.multiAccountLoadAccount  ^js (status)
-                             (types/clj->json {:address address
-                                               :password hashed-password})
-                             callback))
+  (.multiAccountLoadAccount ^js (status)
+                            (types/clj->json {:address address
+                                              :password hashed-password})
+                            callback))
 
 (defn multiaccount-reset
   "TODO: this function is not used anywhere
    if usage isn't planned, remove"
   [callback]
   (log/debug "[native-module]  multiaccount-reset")
-  (.multiAccountReset  ^js (status)
-                       callback))
+  (.multiAccountReset ^js (status)
+                      callback))
 
 (defn multiaccount-derive-addresses
   "NOTE: this should be named derive-accounts
@@ -104,10 +104,10 @@
   [account-id paths callback]
   (log/debug "[native-module]  multiaccount-derive-addresses")
   (when (status)
-    (.multiAccountDeriveAddresses  ^js (status)
-                                   (types/clj->json {:accountID account-id
-                                                     :paths paths})
-                                   callback)))
+    (.multiAccountDeriveAddresses ^js (status)
+                                  (types/clj->json {:accountID account-id
+                                                    :paths paths})
+                                  callback)))
 
 (defn multiaccount-store-account
   "NOTE: beware, the password has to be sha3 hashed
@@ -162,9 +162,9 @@
 (defn multiaccount-import-private-key
   [private-key callback]
   (log/debug "[native-module] multiaccount-import-private-key")
-  (.multiAccountImportPrivateKey  ^js (status)
-                                  (types/clj->json {:privateKey  private-key})
-                                  callback))
+  (.multiAccountImportPrivateKey ^js (status)
+                                 (types/clj->json {:privateKey  private-key})
+                                 callback))
 
 (defn verify
   "NOTE: beware, the password has to be sha3 hashed"

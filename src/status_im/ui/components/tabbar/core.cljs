@@ -122,7 +122,7 @@
       :component-will-unmount
       (fn []
         (when (not-empty @listeners)
-          (doseq [listener @listeners]
+          (doseq [^js listener @listeners]
             (when listener
               (.remove listener)))))
       :reagent-render

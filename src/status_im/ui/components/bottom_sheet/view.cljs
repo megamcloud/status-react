@@ -76,7 +76,7 @@
 
 (defn- swipe-pan-responder [opts]
   (.create
-   react/pan-responder
+   ^js react/pan-responder
    (clj->js
     {:onMoveShouldSetPanResponder (fn [_ ^js state]
                                     (or (< 10 (js/Math.abs (.-dx state)))
@@ -134,7 +134,7 @@
             sheet-height (min max-height height)
             close-sheet  (fn []
                            (when (and platform/android? @back-listener)
-                             (.remove @back-listener)
+                             (.remove ^js @back-listener)
                              (reset! back-listener nil))
                            (on-close {:opacity-value opacity-value
                                       :bottom-value  bottom-value

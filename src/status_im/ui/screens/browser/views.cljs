@@ -47,7 +47,7 @@
        [react/touchable-highlight {:style    styles/url-text-container
                                    :on-press #(re-frame/dispatch [:browser.ui/url-input-pressed])}
         [react/text (http/url-host url-original)]])
-     [react/touchable-highlight {:on-press #(.reload @webview-ref/webview-ref)
+     [react/touchable-highlight {:on-press #(.reload ^js @webview-ref/webview-ref)
                                  :accessibility-label :refresh-page-button}
       [icons/icon :main-icons/refresh]]]))
 

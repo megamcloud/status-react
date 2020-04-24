@@ -120,7 +120,7 @@
   (if (tokens/ethereum? symbol)
     default-transaction-gas
     ;; TODO(jeluard) Rely on estimateGas call
-    (.times default-transaction-gas 5)))
+    (.times ^js default-transaction-gas 5)))
 
 (defn address= [address1 address2]
   (and address1 address2

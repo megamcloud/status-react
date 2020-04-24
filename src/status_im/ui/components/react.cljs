@@ -184,7 +184,7 @@
    content])
 
 (defn get-dimensions [name]
-  (js->clj (.get dimensions name) :keywordize-keys true))
+  (js->clj (.get ^js dimensions name) :keywordize-keys true))
 
 (defn list-item [component]
   (reagent/as-element component))

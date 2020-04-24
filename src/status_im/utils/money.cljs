@@ -125,9 +125,9 @@
   (let [^js bnf (bignumber from)
         ^js bnt (bignumber to)]
     (when (and bnf bnt)
-      (-> (.dividedBy bnf bnt)
-          (.minus 1)
-          (.times 100)))))
+      (-> ^js (.dividedBy bnf bnt)
+          ^js (.minus 1)
+          ^js (.times 100)))))
 
 (defn with-precision [n decimals]
   (when-let [^js bn (bignumber n)]

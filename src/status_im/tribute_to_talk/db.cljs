@@ -65,7 +65,7 @@
     (and transaction
          (pos? (- current-block
                   (js/parseInt transaction-block)))
-         (.lessThanOrEqualTo (money/bignumber tribute-required)
+         (.lessThanOrEqualTo ^js (money/bignumber tribute-required)
                              (money/bignumber value))
          (ethereum/address= (ethereum/public-key->address from-public-key)
                             from))))

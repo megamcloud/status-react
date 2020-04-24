@@ -122,6 +122,9 @@
 (defn sign [args])
 (defn sign-typed-data [args])
 
+(defn save-multiaccount-and-login [args])
+(defn login [args])
+
 (defrecord SimulatedKeycard []
   keycard/Keycard
   (keycard/check-nfc-support [this args]
@@ -173,4 +176,8 @@
   (keycard/get-keys [this args]
     (get-keys args))
   (keycard/sign [this args]
-    (sign args)))
+    (sign args))
+  (keycard/save-multiaccount-and-login [this args]
+    (save-multiaccount-and-login args))
+  (keycard/login [this args]
+    (login args)))

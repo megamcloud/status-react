@@ -61,7 +61,7 @@ pipeline {
                   buildResult: 'SUCCESS',
                   stageResult: 'SUCCESS'
                 ) {
-                  nix.shell('lein cljfmt check', attr: 'shells.lein')
+                  nix.shell('make lint', attr: 'shells.lein')
                 }
               }
             }

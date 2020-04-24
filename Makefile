@@ -258,7 +258,7 @@ endif
 
 lint: export TARGET := lein
 lint: ##@test Run code style checks
-	lein cljfmt check
+	clj-kondo --confg .clj-kondo/config.edn --lint src
 
 lint-fix: export TARGET := lein
 lint-fix: ##@test Run code style checks and fix issues

@@ -55,5 +55,5 @@
 
 (defn init []
   (enableScreens)
-  (core/init app-root)
+  (core/init)
   (snoopy/subscribe!))

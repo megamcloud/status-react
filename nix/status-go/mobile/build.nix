@@ -1,21 +1,19 @@
 { lib, stdenv, utils, callPackage, buildGoPackage
-, go, androidPkgs, openjdk, gomobile
-, unzip, zip, xcodeWrapper
+, go, androidPkgs, openjdk, gomobile, xcodeWrapper
 # object with source attributes
 , source ? { }
-# mobile-only arguments
 , nimbusWrapper ? null
 , platform ? "android"
-, arch ? "arm"
+, architectures ? [ "arm64" "arm" "386" ]
 , goBuildFlags ? [ ]
 , goBuildLdFlags ? [ ]
-, outputFileName ? "status-go-${source.shortRev}-${platform}-${arch}.aar" };
+, outputFileName ? "status-go-${source.shortRev}-${platform}.aar" }:
 
 let
   inherit (lib)
-    concatStrings concatStringsSep concatMapStrings
-    substring optionalString mapAttrsToList
-    makeBinPath optional optionals;
+    concatStringsSep concatMapStrings
+    optionalString 
+    makeBinPath optional optionals length;
 
   removeReferences = [ go ];
   removeExpr = refs: ''remove-references-to ${concatMapStrings (ref: " -t ${ref}") refs}'';
@@ -23,9 +21,12 @@ let
   # used when we want to include the Nimbus wrapper
   nimbusBridgeVendorDir = "$NIX_BUILD_TOP/go/src/${source.goPackagePath}/vendor/${source.goPackagePath}/eth-node/bridge/nimbus";
 
+  # formatted for use with -target
+  targetArchs = map (a: "${platform}/${a}") architectures;
+
 in buildGoPackage {
   pname = source.repo;
-  version = "${source.cleanVersion}-${source.shortRev}-${platform}-${arch}";
+  version = "${source.cleanVersion}-${source.shortRev}-${platform}";
 
   meta = {
     description = "The Status module that consumes go-ethereum.";
@@ -35,7 +36,7 @@ in buildGoPackage {
 
   inherit (source) src goPackagePath;
 
-  nativeBuildInputs = [ gomobile unzip zip ]
+  nativeBuildInputs = [ gomobile ]
     ++ optional (platform == "android") openjdk
     ++ optional stdenv.isDarwin xcodeWrapper;
 
@@ -62,7 +63,6 @@ in buildGoPackage {
 
       export GO111MODULE=off
       export GOPATH=${gomobile.dev}:$GOPATH
-      export PATH=${makeBinPath [ gomobile.bin ]}:$PATH
       export NIX_GOWORKDIR=${NIX_GOWORKDIR}
 
     '' + optionalString (platform == "android") ''
@@ -79,10 +79,10 @@ in buildGoPackage {
     runHook preBuild
     runHook renameImports
 
-    echo -e "\nBuilding for target ${platform}/${arch}\n"
+    echo -e "\nBuilding for targets: ${concatStringsSep "," targetArchs}\n"
 
-    gomobile bind \
-      -target=${platform}/${arch} \
+    ${gomobile}/bin/gomobile bind \
+      -target=${concatStringsSep "," targetArchs} \
       -ldflags="${CGO_LDFLAGS}" \
       ${optionalString (platform == "android") "-androidapi 23"} \
       ${optionalString (platform == "ios") "-iosversion=8.0"} \

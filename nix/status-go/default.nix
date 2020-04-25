@@ -8,41 +8,6 @@ let
   envFlags = callPackage ../tools/envParser.nix { };
   enableNimbus = (attrByPath ["STATUS_GO_ENABLE_NIMBUS"] "0" envFlags) != "0";
 
-  #buildStatusGoDesktopLib = callPackage ./desktop {
-  #  inherit utils;
-  #};
-
-  #hostConfigs = {
-  #  darwin = {
-  #    name = "macos";
-  #    allTargets = [ status-go-packages.desktop status-go-packages.ios status-go-packages.android ];
-  #  };
-  #  linux = {
-  #    name = "linux";
-  #    allTargets = [ status-go-packages.desktop status-go-packages.android ];
-  #  };
-  #};
-  #currentHostConfig = if stdenv.isDarwin then hostConfigs.darwin else hostConfigs.linux;
-
-  #statusGoArgs = { inherit (source) src owner repo rev cleanVersion goPackagePath; inherit goBuildFlags goBuildLdFlags; };
-  #status-go-packages = {
-  #  desktop = buildStatusGoDesktopLib (statusGoArgs // {
-  #    outputFileName = "libstatus.a";
-  #    hostSystem = stdenv.hostPlatform.system;
-  #    host = currentHostConfig.name;
-  #  });
-
-  #  android = buildStatusGoMobileLib (statusGoArgs // {
-  #    host = mobileConfigs.android.name;
-  #    targetConfig = mobileConfigs.android;
-  #  });
-
-  #  ios = buildStatusGoMobileLib (statusGoArgs // {
-  #    host = mobileConfigs.ios.name;
-  #    targetConfig = mobileConfigs.ios;
-  #  });
-  #};
-
   #desktop = rec {
   #  buildInputs = [ status-go-packages.desktop ];
   #  shell = mkShell {
@@ -55,6 +20,12 @@ let
   #  };
   #};
   #platforms = [ android ios desktop ];
+
+  meta = {
+    description = "The Status module that consumes go-ethereum.";
+    license = stdenv.lib.licenses.mpl20;
+    platforms = with stdenv.lib.platforms; linux ++ darwin;
+  };
 
   nimbus =
     if enableNimbus then callPackage ./nimbus { }
@@ -81,12 +52,17 @@ let
   ];
 
 in {
-  mobile = callPackage ./mobile {
-    inherit source goBuildFlags goBuildLdFlags;
+  desktop = callPackage ./desktop {
+    inherit meta source goBuildFlags goBuildLdFlags;
   };
 
-  #shell = mergeSh mkShell {} (catAttrs "shell" platforms);
+  mobile = callPackage ./mobile {
+    inherit meta source goBuildFlags goBuildLdFlags;
+  };
 
-  # CHILD DERIVATIONS
-  #inherit android ios desktop;
+  shell = mergeSh mkShell {
+    buildInputs = ;
+    shellHook = ''
+    '';
+  };
 }

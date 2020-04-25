@@ -1,6 +1,7 @@
 { lib, stdenv, utils, callPackage, buildGoPackage
 , go, androidPkgs, openjdk, gomobile, xcodeWrapper
 # object with source attributes
+, meta ? { }
 , source ? { }
 , nimbusWrapper ? null
 , platform ? "android"
@@ -11,9 +12,7 @@
 
 let
   inherit (lib)
-    concatStringsSep concatMapStrings
-    optionalString 
-    makeBinPath optional optionals length;
+    concatStringsSep concatMapStrings optionalString makeBinPath optional;
 
   removeReferences = [ go ];
   removeExpr = refs: ''remove-references-to ${concatMapStrings (ref: " -t ${ref}") refs}'';
@@ -28,12 +27,7 @@ in buildGoPackage {
   pname = source.repo;
   version = "${source.cleanVersion}-${source.shortRev}-${platform}";
 
-  meta = {
-    description = "The Status module that consumes go-ethereum.";
-    license = lib.licenses.mpl20;
-    platforms = with lib.platforms; linux ++ darwin;
-  };
-
+  inherit meta;
   inherit (source) src goPackagePath;
 
   nativeBuildInputs = [ gomobile ]

@@ -43,16 +43,6 @@ let
   #  });
   #};
 
-  #android = rec {
-  #  buildInputs = [ status-go-packages.android ];
-  #  shell = mkShell {
-  #    inherit buildInputs;
-  #    shellHook = ''
-  #      # These variables are used by the Status Android Gradle build script in android/build.gradle
-  #      export STATUS_GO_ANDROID_LIBDIR=${status-go-packages.android}/lib
-  #    '';
-  #  };
-  #};
   #ios = rec {
   #  buildInputs = [ status-go-packages.ios ];
   #  shell = mkShell {

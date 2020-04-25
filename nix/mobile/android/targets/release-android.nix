@@ -117,10 +117,13 @@ in stdenv.mkDerivation {
     export STATUS_REACT_HOME=$PWD
     export HOME=$sourceRoot
 
+    # Used by the Android Gradle build script in android/build.gradle
+    export STATUS_GO_ANDROID_LIBDIR=${status-go}
+
     ${exportEnvVars}
     ${if secrets-file != "" then "source ${secrets-file}" else ""}
 
-    ${concatStrings (catAttrs "shellHook" [ mavenAndNpmDeps.shell status-go.shell ])}
+    ${concatStrings (catAttrs "shellHook" [ mavenAndNpmDeps.shell ])}
 
     # fix permissions so gradle can create directories
     chmod -R +w $sourceRoot/android

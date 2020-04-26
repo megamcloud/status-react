@@ -1,10 +1,9 @@
 { lib, stdenv, utils, go, buildGoPackage
 # object with source attributes
-, meta ? { }
-, source ? { }
+, meta , source
+, goBuildFlags
+, goBuildLdFlags
 , nimbusWrapper ? null
-, goBuildFlags ? [ ]
-, goBuildLdFlags ? [ ]
 , outputFileName ? "libstatus.a" }:
 
 let
@@ -29,6 +28,7 @@ in buildGoPackage {
   preConfigure = optionalString stdenv.isDarwin utils.enforceXCodeAvailable;
 
   buildMessage = "Building desktop library";
+
   #GOOS=windows GOARCH=amd64 CGO_ENABLED=1 go build ${goBuildFlags} -buildmode=c-archive -o $out/${outputFileName} ./lib
   buildPhase = let
     CGO_LDFLAGS = concatStringsSep " " goBuildLdFlags;

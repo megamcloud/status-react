@@ -19,6 +19,7 @@ let
     # The last line will be the hash.
   };
 
+  # we want these packages easily available via callPackage
   defaultConfig = {
     android_sdk.accept_license = true;
     # Android Env still needs old OpenSSL
@@ -26,7 +27,7 @@ let
     # Override some package versions
     packageOverrides = pkgs: rec {
       inherit (pkgs) callPackage stdenv stdenvNoCC xcodeenv;
- 
+
       # utilities
       mkFilter = import ./tools/mkFilter.nix { inherit (stdenv) lib; };
       mkShell = import ./tools/mkShell.nix { inherit pkgs; stdenv = stdenvNoCC; };
@@ -50,6 +51,9 @@ let
       buildGoPackage = pkgs.buildGo114Package.override { inherit go; };
     };
   };
+
+  # import nixpkgs with a config override
   pkgs = (import nixpkgsSrc) { config = defaultConfig // config; };
 in
+  # merge with our package overrides to makde them globally available
   pkgs

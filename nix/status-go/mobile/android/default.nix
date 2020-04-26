@@ -2,9 +2,9 @@
 
 { lib, stdenv, callPackage, zip, unzip
 # Custom flags
-, source
-, goBuildFlags ? [ ]
-, goBuildLdFlags ? [ ]
+, meta, source
+, goBuildFlags,
+, goBuildLdFlags,
 , enableNimbus ? false
 , architectures ? [ "arm" "arm64" "386" ]
 , outputFileName ? "status-go-${source.shortRev}.aar" }:

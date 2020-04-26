@@ -60,9 +60,9 @@ in {
     inherit meta source goBuildFlags goBuildLdFlags;
   };
 
-  shell = mergeSh mkShell {
-    buildInputs = ;
-    shellHook = ''
-    '';
-  };
+  #shell = mergeSh mkShell {
+  #  buildInputs = ;
+  #  shellHook = ''
+  #  '';
+  #};
 }

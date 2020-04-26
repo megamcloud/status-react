@@ -1,8 +1,7 @@
 { lib, stdenv, utils, callPackage, buildGoPackage
 , go, androidPkgs, openjdk, gomobile, xcodeWrapper
 # object with source attributes
-, meta ? { }
-, source ? { }
+, meta, source
 , nimbusWrapper ? null
 , platform ? "android"
 , architectures ? [ "arm64" "arm" "386" ]

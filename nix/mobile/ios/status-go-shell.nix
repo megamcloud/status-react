@@ -1,4 +1,4 @@
-{ mkShell, mergeSh, status-go }:
+{ mkShell, status-go }:
 
 mkShell {
   shellHook = ''

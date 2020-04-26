@@ -1,11 +1,10 @@
-{ stdenv, callPackage, fetchgit, buildGoPackage,
+{ stdenv, utils, callPackage, fetchgit, buildGoPackage,
   ncurses5, zlib, makeWrapper, patchelf, androidPkgs, xcodeWrapper
 }:
 
 let
   inherit (stdenv) isDarwin;
   inherit (stdenv.lib) optional optionalString strings;
-  utils = callPackage ../utils.nix { };
 in buildGoPackage rec {
   pname = "gomobile";
   version = "20200329-${strings.substring 0 7 rev}";

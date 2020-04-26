@@ -1,11 +1,17 @@
-# Override some packages and utilities
+#
+# Override some packages and utilities in 'pkgs'
+# and make them available globally via callPackage.
+#
+# For more details see:
+# - https://nixos.wiki/wiki/Overlays
+# - https://nixos.org/nixos/nix-pills/callpackage-design-pattern.html
+#
+
 self: super:
 
 let
   inherit (super) stdenv stdenvNoCC callPackage;
-
 in {
-
   # Fix for MacOS
   mkShell = super.mkShell.override { stdenv = stdenvNoCC; };
 

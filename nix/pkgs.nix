@@ -8,6 +8,7 @@ let
   # For testing local version of nixpkgs
   #nixpkgsSrc = (import <nixpkgs> { }).lib.cleanSource "/home/jakubgs/work/nixpkgs";
 
+  # Our own nixpkgs fork with custom fixes
   nixpkgsSrc = fetchFromGitHub {
     name = "nixpkgs-source";
     owner = "status-im";

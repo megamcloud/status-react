@@ -1,4 +1,4 @@
-library 'status-react-jenkins@master'
+library 'status-react-jenkins@nix-refactor'
 
 pipeline {
   agent { label 'macos' }

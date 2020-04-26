@@ -1,4 +1,4 @@
-{ callPackage, lib, stdenv, mkShell, mergeSh, mkFilter, 
+{ callPackage, lib, mkShell,
   xcodeWrapper, projectNodePackage, status-go,
   flock, procps, watchman, bundler, fastlane }:
 
@@ -35,7 +35,7 @@ let
 in {
   inherit buildInputs pod-shell;
 
-  shell = mergeSh localShell [
+  shell = lib.mergeSh localShell [
     fastlane.shell status-go-shell pod-shell
   ];
 }

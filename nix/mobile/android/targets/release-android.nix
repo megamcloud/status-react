@@ -1,27 +1,37 @@
 { stdenv, lib, config, callPackage,
-  mkFilter, bash, file, gnumake, watchmanFactory, gradle,
+  bash, file, gnumake, watchmanFactory, gradle,
   androidPkgs, mavenAndNpmDeps,
   nodejs, openjdk, jsbundle, status-go, unzip, zlib }:
 
 { secrets-file ? "", # Path to the file containing secret environment variables
   watchmanSockPath ? "", # Path to the socket file exposed by an external watchman instance (workaround needed for building Android on macOS)
-  env ? {} # Attribute set containing environment variables to expose to the build script
 }:
 
 assert (builtins.stringLength watchmanSockPath) > 0 -> stdenv.isDarwin;
 
 let
-  inherit (lib) attrByPath hasAttrByPath optionalAttrs;
-  env' = env // optionalAttrs (hasAttrByPath ["status-im" "status-go" "src-override"] config) {
-    STATUS_GO_SRC_OVERRIDE = config.status-im.status-go.src-override;
-  } // optionalAttrs (hasAttrByPath ["status-im" "nimbus" "src-override"] config) {
-    NIMBUS_SRC_OVERRIDE = config.status-im.nimbus.src-override;
+  inherit (lib) attrByPath splitString optionalString hasAttrByPath optionalAttrs;
+
+  # helper for getting config values
+  safeGetConfig = name: default: let
+      path = ["status-im"] ++ (splitString "." name);
+    in
+      attrByPath path default config;
+
+  # custom env variables derived from config
+  env = {
+    KEYSTORE_PATH = safeGetConfig "status-react.keystore-file" "";
+    ANDROID_ABI_SPLIT = safeGetConfig "android.abi-split" false;
+    ANDROID_ABI_INCLUDE = safeGetConfig "android.abi-include" "armeabi-v7a;arm64-v8a;x86";
+    STATUS_GO_SRC_OVERRIDE = safeGetConfig "nimbus.src-override" null;
   };
+
   inherit (config.status-im) build-type;
   inherit (config.status-im.status-react) build-number;
+
   gradle-opts = (attrByPath ["status-im" "status-react" "gradle-opts"] "" config);
   # Path to the .keystore file used to sign the Android APK
-  keystore-file = (attrByPath ["status-im" "status-react" "keystore-file"] "" config);
+
   baseName = "release-android";
   name = "status-react-build-${baseName}";
   gradleHome = "$NIX_BUILD_TOP/.gradle";
@@ -43,7 +53,7 @@ in stdenv.mkDerivation {
       name = "status-react-source-${baseName}";
       filter =
         # Keep this filter as restrictive as possible in order to avoid unnecessary rebuilds and limit closure size
-        mkFilter {
+        lib.mkFilter {
           root = path;
           include = [
             "mobile/js_files.*" "resources/.*"
@@ -69,7 +79,9 @@ in stdenv.mkDerivation {
   postUnpack = ''
     mkdir -p ${gradleHome}
 
-    ${if keystore-file != "" then "cp -a --no-preserve=ownership ${keystore-file} ${gradleHome}/; export KEYSTORE_PATH=${gradleHome}/$(basename ${keystore-file})" else ""}
+    ${optionalString (keystore-file != "") ''
+    cp -a --no-preserve=ownership "$KEYSTORE_PATH" "${gradleHome}/"
+    ''}
 
     # Ensure we have the right .env file
     cp -f $sourceRoot/${envFileName} $sourceRoot/.env
@@ -106,8 +118,7 @@ in stdenv.mkDerivation {
       inherit (lib) catAttrs concatStrings concatStringsSep mapAttrsToList makeLibraryPath optionalString substring toUpper;
       # Take the env attribute set and build a couple of scripts
       #  (one to export the environment variables, and another to unset them)
-      exportEnvVars = concatStringsSep ";" (mapAttrsToList (name: value: "export ${name}='${value}'") env');
-      unsetEnvVars = concatStringsSep ";" (mapAttrsToList (name: value: "unset ${name}") env');
+      exportEnvVars = concatStringsSep ";" (mapAttrsToList (name: value: "export ${name}='${toString value}'") env);
       adhocEnvVars = optionalString stdenv.isLinux "LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${makeLibraryPath [ zlib ]}";
       capitalizedBuildType = toUpper (substring 0 1 buildType) + substring 1 (-1) buildType;
     in ''
@@ -128,8 +139,6 @@ in stdenv.mkDerivation {
     pushd $sourceRoot/android
     ${adhocEnvVars} ./gradlew -PversionCode=${assert build-number != ""; build-number} assemble${capitalizedBuildType} || exit
     popd > /dev/null
-
-    ${unsetEnvVars}
   '';
   doCheck = true;
   checkPhase = ''

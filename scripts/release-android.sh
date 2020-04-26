@@ -30,9 +30,12 @@ fi
 if [ -n "${NIMBUS_SRC_OVERRIDE}" ]; then
   config+="status-im.nimbus.src-override=\"${NIMBUS_SRC_OVERRIDE}\";"
 fi
+config+="status-im.build-env=\"$(must_get_env BUILD_ENV)\";"
 config+="status-im.build-type=\"$(must_get_env BUILD_TYPE)\";"
 config+="status-im.status-react.build-number=\"$(must_get_env BUILD_NUMBER)\";"
 config+="status-im.status-react.keystore-file=\"$(must_get_env KEYSTORE_PATH)\";"
+config+="status-im.android.abi-split=\"$(must_get_env ANDROID_ABI_SPLIT)\";"
+config+="status-im.android.abi-include=\"$(must_get_env ANDROID_ABI_INCLUDE)\";"
 nixOpts=()
 
 # Secrets like this can't be passed via args or they end up in derivation

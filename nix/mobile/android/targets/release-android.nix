@@ -1,5 +1,5 @@
 { stdenv, lib, config, callPackage,
-  mkFilter, bash, file, gnumake, watchmanFactory, gradle,
+  bash, file, gnumake, watchmanFactory, gradle,
   androidPkgs, mavenAndNpmDeps,
   nodejs, openjdk, jsbundle, status-go, unzip, zlib }:
 
@@ -43,7 +43,7 @@ in stdenv.mkDerivation {
       name = "status-react-source-${baseName}";
       filter =
         # Keep this filter as restrictive as possible in order to avoid unnecessary rebuilds and limit closure size
-        mkFilter {
+        lib.mkFilter {
           root = path;
           include = [
             "mobile/js_files.*" "resources/.*"

@@ -42,8 +42,16 @@ let
       ++ lib.optionals (!stdenv.isDarwin) [ gcc8 ]
     );
 
+    # avoid terinal issues
+    TERM="xterm";
+
+    # default locale
+    LANG="en_US.UTF-8";
+    LANGUAGE="en_US.UTF-8";
+
     # just a nicety for easy access to node scripts
     shellHook = ''
+      export STATUS_REACT_HOME=$(git rev-parse --show-toplevel)
       export PATH="$STATUS_REACT_HOME/node_modules/.bin:$PATH"
     '';
   };
@@ -64,7 +72,7 @@ in with pkgs; rec {
   android = targets.mobile.android.shell;
   ios = targets.mobile.ios.shell;
   # all shells together depending on host OS
-  all = mergeSh (mkShell {}) (lib.unique (
+  all = lib.mergeSh (mkShell {}) (lib.unique (
     lib.optionals stdenv.isLinux  [ android linux windows ] ++
     lib.optionals stdenv.isDarwin [ android macos ios ]
   ));

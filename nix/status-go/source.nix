@@ -1,4 +1,4 @@
-{ config, utils, lib, mkFilter, callPackage, fetchFromGitHub }:
+{ config, utils, lib, callPackage, fetchFromGitHub }:
 
 let
   inherit (lib) strings traceValFn attrByPath importJSON;
@@ -22,7 +22,7 @@ let
       name = "${repo}-source-${shortRev}";
       # Keep this filter as restrictive as possible in order
       # to avoid unnecessary rebuilds and limit closure size
-      filter = mkFilter {
+      filter = lib.mkFilter {
         root = path;
         include = [ ".*" ];
         exclude = [

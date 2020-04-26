@@ -1,4 +1,4 @@
-{ stdenv, callPackage, mkShell, mergeSh, openjdk, androidPkgs }:
+{ stdenv, callPackage, mkShell, openjdk, androidPkgs }:
 
 let
   inherit (stdenv.lib)
@@ -60,7 +60,7 @@ in {
     inherit meta source goBuildFlags goBuildLdFlags;
   };
 
-  #shell = mergeSh mkShell {
+  #shell = lib.mergeSh mkShell {
   #  buildInputs = ;
   #  shellHook = ''
   #  '';

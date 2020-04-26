@@ -1,4 +1,4 @@
-{ config, lib, callPackage, mkShell, mergeSh, flock, lsof, openjdk, gradle_5,
+{ config, lib, callPackage, mkShell, flock, lsof, openjdk, gradle_5,
   status-go, localMavenRepoBuilder, projectNodePackage, androidPkgs, androidShell }:
 
 let
@@ -37,7 +37,7 @@ in {
   # TARGETS
   inherit release jsbundle generate-maven-and-npm-deps-shell buildInputs;
 
-  shell = mergeSh
+  shell = lib.mergeSh
     (mkShell {
       inherit buildInputs;
       inputsFrom = [ release gradle ];

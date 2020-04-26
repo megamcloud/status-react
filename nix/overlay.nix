@@ -33,9 +33,5 @@ in {
   nodejs = super.pkgs.nodejs-12_x;
 
   # Custom packages
-  go = callPackage ./pkgs/patched-go { go = super.pkgs.go_1_14; };
   gomobile = callPackage ./pkgs/gomobile { };
-
-  # Custom builders
-  buildGoPackage = super.pkgs.buildGo114Package;
 }
